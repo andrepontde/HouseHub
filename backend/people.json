@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "role": "Tenant",
+        "firstName": "Andre",
+        "lastName": "Pont",
+        "linkedHome": "X1234",
+        "password": "password",
+        "SignedIn": false,
+        "pasportImage": "https://www.google.com"
+        
+    },
+    {
+        "id": 2,
+        "LinkedHomes": [
+            {
+                "id": "X1234"
+            }
+        ],   
+        "role": "landlord",
+        "firstName": "Colm",
+        "lastName": "Murphy",
+        "linkedHome": "IF EXISTS, PLACE HOME HERE",
+        "password": "password",
+        "SignedIn": false,
+        "pasportImage": "https://www.google.com"
+        
+    }
+]
