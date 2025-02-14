@@ -1,12 +1,12 @@
 {
   "name": "college-app",
   "version": "1.0.0",
-  "description": "This is the myCollege App Application @Jordan",
+  "description": "This is the HouseHub App Application @Jordan",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "node server",
     "dev": "nodemon server"
+
   },
   "keywords": [],
   "author": "",
@@ -14,14 +14,10 @@
   "dependencies": {
     "axios": "^1.7.9",
     "express": "^4.21.2",
-<<<<<<< HEAD
+    "mongodb": "^6.13.0",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
-=======
-    "mongodb": "^6.13.0",
-    "multer": "^1.4.5-lts.1",
->>>>>>> origin/main
     "nodemon": "^3.1.9"
   }
 }

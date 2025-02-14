@@ -29,15 +29,15 @@ async function run() {
 run().catch(console.dir);
 
 // Serve static files from the React build directory
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "..","househub","build")));
 
 // Catch-all route to serve index.html for React routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../househub/build", "index.html"));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname,"index.html"));
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
