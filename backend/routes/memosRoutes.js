@@ -23,6 +23,36 @@ router.get("/memo", async (req,res) => {
         res.status(500).json({error: error.message}); //response for an error
     }
 });
+router.get("/memo/:id", async (req, res) => {
+  try {
+    const memo = await Memo.findById(req.params.id); //fetching a memo by id from database
+    res.json(memo); //send the memo as a json response
+  } catch (error) {
+    res.status(500).json({ error: error.message }); //response for an error
+  }
+});
+//Updating a memo
+router.put("/memo/:id", async (req, res) => {
+    try {
+        const {id, title, content} = req.body; //taking data from body request
+        const updatedMemo = {id, title, content}; //creating new updated memo
+        const memo = await Memo.findByIdAndUpdate(req.params.id, updatedMemo, {new: true}); //updating previous memo by id from database
+        res.json(memo); //send the updated memo as a json response
+        console.log("Updated memo: " + memo);//logging if memo updated
+    } catch(error) {
+        res.status(500).json({error: error.message}); //response for an error
+    }
+});
+//Deleting a memo
+router.delete("/memo/:id", async (req, res) => {
+    try{    
+        const memo = await Memo.findByIdAndDelete(req.params.id); //deleting a memo by id from database
+        res.json(memo); //send the deleted memo as a json response
+        console.log("Deleted memo: " + memo);//logging if memo deleted
+    } catch(error) {
+        res.status(500).json({error: error.message}); //response for an error
+    }
+});
 
 module.exports = router; //export the routes to be used in the server.js
 
