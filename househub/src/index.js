@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import  {TheMainNavBar} from './components/main-nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import LoginCard from './components/loginCard'
+import LoginCard from './components/login-card'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

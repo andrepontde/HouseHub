@@ -7,9 +7,8 @@ const LoginCard = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Add your login logic here
+
+
   };
 
   return (
@@ -43,7 +42,11 @@ const LoginCard = () => {
             <Button variant="primary" type="submit" className="w-100 mt-4">
               Login
             </Button>
+
           </Form>
+          <Button variant="Secondary" type="submit"  className="w-100 mt-4">
+              Register
+            </Button>
         </Card.Body>
       </Card>
     </Container>

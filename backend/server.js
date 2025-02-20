@@ -11,11 +11,14 @@ const app = express();
 
 //Using mongoose to connect to MongoDB
 async function connectToDB() {  
+
   try{
     await mongoose.connect(uri); //connect to MongoDB from the URI
     console.log("Connected to MongoDB"); //logging a successful connection
   } catch(error) {
+
     console.log("Error connecting to MongoDB: " + error);//logging an unsuccessful connection
+
   }
 }
 connectToDB();//calling function to connect
@@ -38,7 +41,7 @@ app.listen(PORT, () => {
 });
 
 
-//using memoRoutes for requests from /api
+
 //the defined routes are accessable through http://localhost:5000/api/memo 
 app.use('/api', memosRoutes);
 
