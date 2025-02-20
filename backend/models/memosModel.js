@@ -13,4 +13,4 @@ const memoSchema = new mongoose.Schema({
   }
 });
 
-module.exports =mongoose.model('Memo', memoSchema);//exporting model to be used in routes
+module.exports = mongoose.model('Memo', memoSchema);//exporting model to be used in routes
