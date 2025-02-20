@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Button, Form, Container } from 'react-bootstrap';
 
-const LoginCard = () => {
+const LoginCard = ({ onToggle }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -42,11 +42,11 @@ const LoginCard = () => {
             <Button variant="primary" type="submit" className="w-100 mt-4">
               Login
             </Button>
-
-          </Form>
-          <Button variant="Secondary" type="submit"  className="w-100 mt-4">
+            <Button variant="secondary" className="w-100 mt-2" onClick={onToggle}>
               Register
             </Button>
+
+          </Form>
         </Card.Body>
       </Card>
     </Container>
