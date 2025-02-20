@@ -15,7 +15,7 @@ async function connectToDB() {
     await mongoose.connect(uri); //connect to MongoDB from the URI
     console.log("Connected to MongoDB"); //logging a successful connection
   } catch(error) {
-    console.log("Error connecting to MongoDB: " + error);//logging a unsuccessful connection
+    console.log("Error connecting to MongoDB: " + error);//logging an unsuccessful connection
   }
 }
 connectToDB();//calling function to connect
@@ -26,10 +26,10 @@ app.use(express.json());
 // Serve static files from the React build directory
 app.use(express.static(path.join(__dirname, "..","househub","build")));
 
-// Catch-all route to serve index.html for React routes
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname,"index.html"));
-});
+// // Catch-all route to serve index.html for React routes
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname,"index.html"));
+// });
 
 // Start the server
 const PORT = process.env.PORT || 5000;
