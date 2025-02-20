@@ -23,9 +23,10 @@ router.get("/memo", async (req,res) => {
         res.status(500).json({error: error.message}); //response for an error
     }
 });
+//Route to retrieve a specific memo
 router.get("/memo/:id", async (req, res) => {
   try {
-    const memo = await Memo.findById(req.params.id); //fetching a memo by id from database
+    const memo = await Memo.findById(req.params.id); //fetching a memo by object id from database
     res.json(memo); //send the memo as a json response
   } catch (error) {
     res.status(500).json({ error: error.message }); //response for an error
