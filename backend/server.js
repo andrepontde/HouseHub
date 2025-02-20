@@ -1,17 +1,24 @@
 const express = require("express");
 const path = require("path");
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const mongoose = require('mongoose');
+//const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://Admin:User@househubdb.8pvzl.mongodb.net/?retryWrites=true&w=majority&appName=HouseHubDB";
+const memosRoutes = require('./routes/memosRoutes');//importing file
+
+
 
 const app = express();
 
 //Using mongoose to connect to MongoDB
-async function connectToDB() {
+async function connectToDB() {  
+
   try{
     await mongoose.connect(uri); //connect to MongoDB from the URI
     console.log("Connected to MongoDB"); //logging a successful connection
   } catch(error) {
-    console.log("Error connecting to MongoDB: " + error);//logging a unsuccessful connection
+
+    console.log("Error connecting to MongoDB: " + error);//logging an unsuccessful connection
+
   }
 }
 connectToDB();//calling function to connect
@@ -22,20 +29,20 @@ app.use(express.json());
 // Serve static files from the React build directory
 app.use(express.static(path.join(__dirname, "..","househub","build")));
 
-// Catch-all route to serve index.html for React routes
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname,"index.html"));
-});
+// // Catch-all route to serve index.html for React routes
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname,"index.html"));
+// });
 
 // Start the server
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
 
 
-//using memoRoutes for requests from /api
-//the defined routes are accessable through http://localhost:5000/api/memo
+
+//the defined routes are accessable through http://localhost:5000/api/memo 
 app.use('/api', memosRoutes);
 
 
