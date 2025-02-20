@@ -1,0 +1,40 @@
+/* /* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  :root {
+    --primary-color: #B0C4DE;     /* Soft Blue Gray */
+    --secondary-color: #F5F5DC;   /* Warm Beige */
+    --accent-color: #FF6B6B;      /* Soft Coral */
+    --background-color: #FAFAFA;  /* Off-White */
+    --text-color: #4A4A4A;        /* Slate Gray */
+  }
+  
+  /* Example usage in your CSS */
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  
+  h1, h2, h3 {
+    color: var(--primary-color);
+  }
+  
+  button {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+  }
+  
+  .container {
+    background-color: var(--secondary-color);
+  }
+  
