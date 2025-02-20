@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Import axios for making HTTP requests
 import { Card, Button, Form, Container } from 'react-bootstrap';
 
 const RegisterCard = ({ onToggle }) => {
@@ -11,9 +12,32 @@ const RegisterCard = ({ onToggle }) => {
     const [role, setRole] = useState('tenant');
     const [houseID, setHouseID] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
+        try {
+            // Make a POST request to create a new user
+            const response = await axios.post('http://localhost:5001/api/registration', {
+                username,
+                firstName,
+                lastName,
+                email,
+                age,
+                password,
+                role,
+                houseID
+            });
+            console.log('User registered:', response.data);
+            setUsername('');
+            setFirstName('');
+            setLastName('');
+            setEmail('');
+            setAge('');
+            setPassword('');
+            setRole('tenant');
+            setHouseID('');
+        } catch (error) {
+            console.error('Error registering user:', error);
+        }
     };
 
     return (

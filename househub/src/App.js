@@ -6,10 +6,10 @@ import RegisterCard from './components/register-card';
 import { Button } from 'react-bootstrap';
 
 function App(){
-  const [showLogin, setShowLogin] = React.useState(true);
+  const [showLogin, setShowLogin] = React.useState(true); // State to toggle between login and registration
 
   const handleToggle = () => {
-    setShowLogin(!showLogin);
+    setShowLogin(!showLogin); // Toggle the state to show either login or registration
   };
 
   return (
@@ -17,11 +17,11 @@ function App(){
       <TheMainNavBar />
       {showLogin ? (
         <div>
-          <LoginCard onToggle={handleToggle} />
+          <LoginCard onToggle={handleToggle} /> {/* Show LoginCard component */}
         </div>
       ) : (
         <div>
-          <RegisterCard onToggle={handleToggle} />
+          <RegisterCard onToggle={handleToggle} /> {/* Show RegisterCard component */}
         </div>
       )}
     </div>
