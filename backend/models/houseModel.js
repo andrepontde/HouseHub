@@ -31,7 +31,8 @@ const houseSchema = new mongoose.Schema({
     //tenants is an array of users
     tenants: [{
         type: Schema.Types.ObjectId,
-        ref: 'User' //referencing the user model
+        ref: 'User', //referencing the user model
+        require: false
     }]
 });
 
