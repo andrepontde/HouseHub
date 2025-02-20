@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 // import reportWebVitals from './reportWebVitals';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -10,19 +11,8 @@ root.render(
   </React.StrictMode>
 );
 
-// // import React from 'react';
-// import ReactDOM from 'react-dom/client';
-// import  {TheMainNavBar} from './components/main-nav';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import LoginCard from './components/login-card'
-
-
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(<React.Fragment>
-{/* <TheMainNavBar/>
-      <LoginCard/> */}
-//   </React.Fragment>
-// );
+// The main entry point of the React application.
+// It renders the App component inside the root element.
 
 
 

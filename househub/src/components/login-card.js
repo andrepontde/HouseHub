@@ -7,8 +7,7 @@ const LoginCard = ({ onToggle }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-
+    // Handle login logic here
   };
 
   return (
@@ -45,7 +44,7 @@ const LoginCard = ({ onToggle }) => {
             <Button variant="secondary" className="w-100 mt-2" onClick={onToggle}>
               Register
             </Button>
-
+            {/* The onToggle prop is used to switch between login and registration */}
           </Form>
         </Card.Body>
       </Card>

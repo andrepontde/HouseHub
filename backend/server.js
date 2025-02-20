@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const cors = require('cors');
 const mongoose = require('mongoose');
 //const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://Admin:User@househubdb.8pvzl.mongodb.net/?retryWrites=true&w=majority&appName=HouseHubDB";
@@ -9,6 +10,9 @@ const userRoutes = require('./routes/userRoutes');//importing file
 
 
 const app = express();
+
+// Enable CORS
+app.use(cors());
 
 //Using mongoose to connect to MongoDB
 async function connectToDB() {  
