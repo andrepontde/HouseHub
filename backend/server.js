@@ -15,7 +15,7 @@ const app = express();
 app.use(cors());
 
 //Using mongoose to connect to MongoDB
-async function connectToDB() {  
+async function connectToDB() {
 
   try{
     await mongoose.connect(uri); //connect to MongoDB from the URI
@@ -32,7 +32,7 @@ connectToDB();//calling function to connect
 app.use(express.json());
 
 // Serve static files from the React build directory
-app.use(express.static(path.join(__dirname, "..","househub","build")));
+app.use(express.static(path.join(__dirname, "..","client","build")));
 
 // // Catch-all route to serve index.html for React routes
 // app.get("/", (req, res) => {
@@ -47,7 +47,7 @@ app.listen(PORT, () => {
 
 
 
-//the defined routes are accessable through http://localhost:5000/api/memo 
+//the defined routes are accessable through http://localhost:5000/api/memo
 app.use('/api', memosRoutes);
 
 app.use('/api', userRoutes);
