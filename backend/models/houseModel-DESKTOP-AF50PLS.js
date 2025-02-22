@@ -28,10 +28,11 @@ const houseSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    //tenants stored in an array
+    //tenants is an array of users
     tenants: [{
         type: Schema.Types.ObjectId,
-        ref: 'User' //referencing the user model
+        ref: 'User', //referencing the user model
+        require: false
     }]
 });
 
