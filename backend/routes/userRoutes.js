@@ -47,6 +47,26 @@ router.get("/user/:username", async (req, res) => {
   }
 });
 
+//route to handle user login
+router.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body; //taking username and password from body request
+    const user = await User.findOne({ username }); //fetching a user by username from db
+    if (!user) {
+      //if user not found
+      return res.status(404).json({ message: "User not found" }); //response for user not found
+    }
+    const isMatch = user.password === password; //checking if password matches
+    if (!isMatch) {
+      //if password does not match
+      return res.status(400).json({ message: "Invalid credentials" }); //response for invalid credentials
+    }
+    res.json(user); //send the user as a json response
+  } catch (error) {
+    res.status(500).json({ error: error.message }); //response for an error
+  }
+});
+
 //route to update a user
 router.put("user/:username", async (req, res) => {
   try {

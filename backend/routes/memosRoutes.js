@@ -5,12 +5,23 @@ const Memo = require("../models/memosModel.js"); //inporting file(including mong
 //Creating a route for new memo
 router.post("/memo", async (req, res) => {
   try {
-    const { memoID, title, content } = req.body;
-    const newMemo = new Memo({ memoID, title, content }); //creting the memo instance, from data collected from body request
+    // Modified to include houseID and username
+    const { memoID, title, content, houseKEY, username } = req.body;
+    const newMemo = new Memo({ memoID, title, content, houseKEY, username }); //creting the memo instance, from data collected from body request
     await newMemo.save(); //saving memo to database using save method from mongoose
     res.status(201).json(newMemo); //response for created memo
   } catch (error) {
     res.status(500).json({ error: error.message }); //response for an error
+  }
+});
+
+// New route to retrieve all memos for a given house key
+router.get("/house/:houseKEY/memos", async (req, res) => {
+  try {
+    const memos = await Memo.find({ houseID: req.params.houseKEY });
+    res.json(memos);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
