@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Button, Form, Container } from 'react-bootstrap';
+import 'styles/login-register.css';
 import axios from 'axios'; // Make sure axios is imported
 
 const LoginCard = ({ onToggle }) => {
