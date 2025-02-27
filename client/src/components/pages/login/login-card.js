@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import { Card, Button, Form, Container } from 'react-bootstrap';
+import 'styles/login-register.css';
+import axios from 'axios'; // Make sure axios is imported
 
 const LoginCard = ({ onToggle }) => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+    try {
+      const response = await axios.post('http://localhost:5001/api/login', {
+        username,
+        password
+      });
+      console.log('User logged in:', response.data);
+      setUsername('');
+      setPassword('');
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
   };
 
   return (
@@ -16,13 +28,13 @@ const LoginCard = ({ onToggle }) => {
         <Card.Body>
           <h3 className="text-center mb-4">Login</h3>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formEmail">
-              <Form.Label>Email address</Form.Label>
+            <Form.Group controlId="formUsername">
+              <Form.Label>Username</Form.Label>
               <Form.Control
-                type="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                placeholder="Enter username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </Form.Group>

@@ -1,9 +1,9 @@
 import React  from 'react'
-import  {TheMainNavBar} from './components/main-nav';
+import  {TheMainNavBar} from './components/pages/layout/main-nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import LoginCard from './components/login-card'
-import RegisterCard from './components/register-card';
-import { Button } from 'react-bootstrap';
+import LoginCard from './components/pages/login/login-card'
+import RegisterCard from './components/pages/login/register-card';
+
 
 function App(){
   const [showLogin, setShowLogin] = React.useState(true); // State to toggle between login and registration

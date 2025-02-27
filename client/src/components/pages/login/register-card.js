@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
 import { Card, Button, Form, Container } from 'react-bootstrap';
+import 'styles/login-register.css';
+
 
 const RegisterCard = ({ onToggle }) => {
     const [username, setUsername] = useState('');
@@ -41,14 +43,15 @@ const RegisterCard = ({ onToggle }) => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-            <Card style={{ width: '20rem' }} className="shadow-lg">
+        <Container className="d-flex justify-content-center align-items-center" style={{ }}>
+            <Card style={{ width: '20rem'}} className="shadow-lg">
                 <Card.Body>
-                    <h3 className="text-center mb-4">Register</h3>
+                    <h3 className="text-center mb-3">Register</h3>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formUsername">
-                            <Form.Label>Username</Form.Label>
+                        <Form.Group  controlId="formUsername">
+                            <Form.Label column="sm">Username</Form.Label>
                             <Form.Control
+                            size="sm"
                                 type="text"
                                 placeholder="Enter username"
                                 value={username}
@@ -57,9 +60,10 @@ const RegisterCard = ({ onToggle }) => {
                             />
                         </Form.Group>
 
-                        <Form.Group controlId="formFirstName" className="mt-3">
-                            <Form.Label>First Name</Form.Label>
+                        <Form.Group controlId="formFirstName" className="mt-1">
+                            <Form.Label column="sm">First Name</Form.Label>
                             <Form.Control
+                            size="sm"
                                 type="text"
                                 placeholder="Enter first name"
                                 value={firstName}
@@ -68,20 +72,23 @@ const RegisterCard = ({ onToggle }) => {
                             />
                         </Form.Group>
 
-                        <Form.Group controlId="formLastName" className="mt-3">
-                            <Form.Label>Last Name</Form.Label>
+                        <Form.Group controlId="formLastName" className="mt-1">
+                            <Form.Label column="sm">Last Name</Form.Label>
                             <Form.Control
+                            size="sm"
                                 type="text"
                                 placeholder="Enter last name"
                                 value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
                                 required
+                                onChange={(e) => setLastName(e.target.value)}
+
                             />
                         </Form.Group>
 
-                        <Form.Group controlId="formEmail" className="mt-3">
-                            <Form.Label>Email address</Form.Label>
+                        <Form.Group controlId="formEmail" className="mt-1">
+                            <Form.Label column="sm">Email address</Form.Label>
                             <Form.Control
+                            size="sm"
                                 type="email"
                                 placeholder="Enter email"
                                 value={email}
@@ -90,9 +97,10 @@ const RegisterCard = ({ onToggle }) => {
                             />
                         </Form.Group>
 
-                        <Form.Group controlId="formAge" className="mt-3">
-                            <Form.Label>Age</Form.Label>
+                        <Form.Group controlId="formAge" className="mt-1">
+                            <Form.Label column="sm">Age</Form.Label>
                             <Form.Control
+                            size="sm"
                                 type="text"
                                 placeholder="Enter age"
                                 value={age}
@@ -101,20 +109,21 @@ const RegisterCard = ({ onToggle }) => {
                             />
                         </Form.Group>
 
-                        <Form.Group controlId="formPassword" className="mt-3">
-                            <Form.Label>Password</Form.Label>
+                        <Form.Group controlId="formPassword" className="mt-1">
+                            <Form.Label column="sm">Password</Form.Label>
                             <Form.Control
+                            size="sm"
                                 type="password"
                                 placeholder="Enter password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                required
                             />
                         </Form.Group>
 
-                        <Form.Group controlId="formRole" className="mt-3">
-                            <Form.Label>Role</Form.Label>
+                        <Form.Group controlId="formRole" className="mt-1">
+                            <Form.Label column="sm">Role</Form.Label>
                             <Form.Control
+                                size="sm"
                                 as="select"
                                 value={role}
                                 onChange={(e) => setRole(e.target.value)}
@@ -125,7 +134,7 @@ const RegisterCard = ({ onToggle }) => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Button variant="primary" type="submit" className="w-100 mt-4">
+                        <Button variant="primary" type="submit" className="w-100 mt-2">
                             Register
                         </Button>
                         <Button variant="secondary" className="w-100 mt-2" onClick={onToggle}>
