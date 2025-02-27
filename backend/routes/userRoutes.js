@@ -70,12 +70,13 @@ router.post("/login", async (req, res) => {
       //if user not found
       return res.status(404).json({ message: "User not found" }); //response for user not found
     }
-    const isMatch = user.password === password; //checking if password matches
+    const isMatch = await bcrypt.compare(password, user.password); //checking if password matches
     if (!isMatch) {
       //if password does not match
       return res.status(400).json({ message: "Invalid credentials" }); //response for invalid credentials
     }
-    res.json(user); //send the user as a json response
+    const token = generateToken(user.userID, user.houseID); //generating token
+    res.json({token}); //send the user as a json response
   } catch (error) {
     res.status(500).json({ error: error.message }); //response for an error
   }
