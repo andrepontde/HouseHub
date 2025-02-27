@@ -1,5 +1,11 @@
-import { NavSideBar } from "./components/dashboard/layout/SideNav";
+import React from 'react'
 
-const DashBoard = () => {
+ const DashBoard = () => {
+    return (
+        <>
+            <h1>This is the dashboard</h1>
+        </>
+    )
 
 }
+export default DashBoard;
