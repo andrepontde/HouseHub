@@ -1,30 +1,44 @@
+require("dotenv").config(); //importing dotenv to use environment variables
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel.js");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const authorise = require("../middleware/authorisationMiddleware.js");
+const generateToken = require("../utils/generateToken.js");
 
 //route ro creating user
 router.post("/registration", async (req, res) => {
   try {
-    const { username, firstName, lastName, email, age, password, role } =
-      req.body; //taking data from body request
+    const { username, firstName, lastName, email, age, password, role } = req.body; //taking data from body request
+    const salt = await bcrypt.genSalt(10); //generating salt for hashing
+    const hashedPassword = await bcrypt.hash(password, salt); //hashing the password
     const newUser = new User({
       username,
       firstName,
       lastName,
       email,
       age,
-      password,
+      password: hashedPassword,
       role,
-    }); //creating instance of user from data collected
+      houseID: null,
+    }); //creating instance of user
     await newUser.save(); //saving user to db
-    res.status(201).json(newUser); //response for created user
+    res.status(201).json({
+      token: generateToken(newUser.userID, newUser.houseID), //sending token to client
+    }); //response for created user
+    console.log("New user created: " + newUser); //logging if user created
+    console.log(
+      "Token generated: " + generateToken(newUser.userID, newUser.houseID)
+    ); //logging if token generated
   } catch (error) {
     res.status(500).json({ error: error.message }); //response for error
+    console.log("Error creating user: " + error); //logging if error
   }
 });
 
 //route to retrieve all users
-router.get("/users", async (req, res) => {
+router.get("/users", authorise, async (req, res) => {
   try {
     const users = await User.find(); //fetching all users from db
     res.json(users); //send the users as a json response
@@ -56,12 +70,17 @@ router.post("/login", async (req, res) => {
       //if user not found
       return res.status(404).json({ message: "User not found" }); //response for user not found
     }
-    const isMatch = user.password === password; //checking if password matches
+
+    const isMatch = await bcrypt.compare(password, user.password); //checking if password matches
+
     if (!isMatch) {
       //if password does not match
       return res.status(400).json({ message: "Invalid credentials" }); //response for invalid credentials
     }
-    res.json(user); //send the user as a json response
+
+    const token = generateToken(user.userID, user.houseID); //generating token
+    res.json({token}); //send the user as a json response
+
   } catch (error) {
     res.status(500).json({ error: error.message }); //response for an error
   }
@@ -89,7 +108,7 @@ router.put("user/:username", async (req, res) => {
     if (!user) {
       //if user not found
       return res.status(404).json({ message: "User not found" }); //response for user not found
-    } 
+    }
     res.json(user); //send the updated user as a json response
   } catch (error) {
     res.status(500).json({ error: error.message }); //error response

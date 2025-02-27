@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const path = require("path");
 const cors = require('cors');
@@ -8,14 +9,13 @@ const memosRoutes = require('./routes/memosRoutes');//importing file
 const userRoutes = require('./routes/userRoutes');//importing file
 
 
-
 const app = express();
 
 // Enable CORS
 app.use(cors());
 
 //Using mongoose to connect to MongoDB
-async function connectToDB() {
+async function connectToDB() { 
 
   try{
     await mongoose.connect(uri); //connect to MongoDB from the URI
