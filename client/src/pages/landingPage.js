@@ -1,11 +1,14 @@
 import React from 'react';
+import { Container, Typography } from '@mui/material';
 import TheMainNavBar from 'components/layout/MainNav';
 const Landing = () => {
     return (<>
         <TheMainNavBar />
-        <div>
-            <h1>This is the Landing Page</h1>
+        <Container>        <div>
+           <Typography variant="h2" sx={{fontFamily : "roboto"}}>This is the landing page</Typography>
         </div>
+        </Container>
+
         </>
     );
 };
