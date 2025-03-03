@@ -1,0 +1,16 @@
+@import url('./variables.css');
+
+.sidebar{
+    height: 100vh;
+    width:max-content;
+    background-color:var(--accent-color);
+    position: fixed;
+    display: flex;
+}
+.sidebar a{
+    padding:20px;
+    text-decoration: none;
+}
+.sidebar ul{
+    list-style-type:none;
+}

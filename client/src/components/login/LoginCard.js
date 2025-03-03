@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { Card, Button, Form, Container } from 'react-bootstrap';
-import 'styles/login-register.css';
-import axios from 'axios'; // Make sure axios is imported
+import {
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  Button,
+  Container,
+  Box,
+} from '@mui/material';
+import axios from 'axios';
 
 const LoginCard = ({ onToggle }) => {
   const [username, setUsername] = useState('');
@@ -12,7 +19,7 @@ const LoginCard = ({ onToggle }) => {
     try {
       const response = await axios.post('http://localhost:5001/api/login', {
         username,
-        password
+        password,
       });
       console.log('User logged in:', response.data);
       setUsername('');
@@ -23,42 +30,62 @@ const LoginCard = ({ onToggle }) => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-      <Card style={{ width: '20rem' }} className="shadow-lg">
-        <Card.Body>
-          <h3 className="text-center mb-4">Login</h3>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formUsername">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formPassword" className="mt-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Button variant="primary" type="submit" className="w-100 mt-4">
+    <Container
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      <Card sx={{ width: '20rem', boxShadow: 5 }}>
+        <CardContent>
+          <Typography variant="h5" component="div" align="center" gutterBottom>
+            Login
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
               Login
             </Button>
-            <Button variant="secondary" className="w-100 mt-2" onClick={onToggle}>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={onToggle}
+              sx={{ mb: 2 }}
+            >
               Register
             </Button>
-            {/* The onToggle prop is used to switch between login and registration */}
-          </Form>
-        </Card.Body>
+          </Box>
+        </CardContent>
       </Card>
     </Container>
   );

@@ -1,5 +1,13 @@
-import { NavSideBar } from "./components/dashboard/layout/SideNav";
+import React from 'react'
+import SideNavBar from 'components/dashboard/layout/SideNav';
+import TheMainNavBar from 'components/layout/MainNav';
+ const DashBoard = () => {
+    return (
+        <>
+         <TheMainNavBar/>
 
-const DashBoard = () => {
+        </>
+    )
 
 }
+export default DashBoard;
