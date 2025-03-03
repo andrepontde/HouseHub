@@ -14,6 +14,12 @@ const houseSchema = new mongoose.Schema({
         type: String,
         require : true
     },
+    houseID: {
+        type: String,
+        require : true,
+        default: uuidv4,
+        unique : true
+    },
     eircode: {
         type: String,
         require : true
@@ -23,10 +29,11 @@ const houseSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    key:{
+    Key: {
         type: String,
-        required: true,
-        unique: true
+        require : true,
+        default: uuidv4,
+        unique : true
     },
     //tenants stored in an array
     tenants: [{

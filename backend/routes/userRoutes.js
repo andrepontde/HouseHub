@@ -48,7 +48,7 @@ router.get("/users", authorise, async (req, res) => {
 });
 
 //route to retieve a specific user
-router.get("/user/:username", async (req, res) => {
+router.get("/user/:username", authorise, async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username }); //fetching a user by username from db
     if (!user) {
@@ -87,7 +87,7 @@ router.post("/login", async (req, res) => {
 });
 
 //route to update a user
-router.put("user/:username", async (req, res) => {
+router.put("/user/:username", authorise, async (req, res) => {
   try {
     const { username, firstName, lastName, email, age, password, role } =
       req.body; //taking data from body request
@@ -116,7 +116,7 @@ router.put("user/:username", async (req, res) => {
 });
 
 //route to delete user
-router.delete("/user/:username", async (req, res) => {
+router.delete("/user/:username", authorise, async (req, res) => {
   try {
     const user = await User.findOneAndDelete({ username: req.params.username }); //deleting a user by id from db
     if (!user) {
