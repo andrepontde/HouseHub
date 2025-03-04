@@ -8,6 +8,7 @@
 const mongoose = require('mongoose');
 const { listSearchIndexes } = require('./memosModel');
 const Schema = mongoose.Schema;
+const { v4: uuidv4 } = require('uuid');
 
 const houseSchema = new mongoose.Schema({
     name: {
@@ -29,7 +30,7 @@ const houseSchema = new mongoose.Schema({
         require: true
     },
     landlord: {
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: 'User',
         required: true
     },
@@ -50,3 +51,5 @@ const houseSchema = new mongoose.Schema({
 houseSchema.index({key: 1});//adding index to key for querying 
 
 module.exports = mongoose.model('house', houseSchema);//exporting model to be used in routes
+
+//change lanmdlord to userID and fix post route to take from token

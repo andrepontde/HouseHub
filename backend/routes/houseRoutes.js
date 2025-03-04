@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const House = require("../models/houseModel.js");
-const { v4: uuidv4 } = require('uuid'); // Add this line to import uuid
+ // Add this line to import uuid
 
 //create new house
 router.post("/houses", async (req, res) => {
   try {
-    const { name, address, eircode, landlord, key } = req.body;
-    const newHouse = new House({name, address, eircode, landlord, key: uuidv4() }); // Use uuidv4 for key
+    const { name, address, eircode, landlord } = req.body;
+    const newHouse = new House({name, address, eircode, landlord }); // Use uuidv4 for key
     await newHouse.save();
     res.status(201).json(newHouse); // saves to mongoDB
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -19,7 +20,7 @@ router.post("/houses", async (req, res) => {
 router.get("/houses", async (req, res) => {
   try {
     const houses = await House.find(); //finds all houses
-    res.json(houses);
+    res.json(houses); 
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
