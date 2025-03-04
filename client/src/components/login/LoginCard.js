@@ -44,7 +44,7 @@ const LoginCard = ({ onToggle }) => {
   };
 
   if (showJoinHouse) {
-    return <JoinHouseCard username={username} password={password} />; // Render JoinHouseCard if needed
+    return <JoinHouseCard username={username} password={password}/>; // Render JoinHouseCard if needed
   }
 
   return (
