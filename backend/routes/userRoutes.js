@@ -48,7 +48,7 @@ router.get("/users", authorise, async (req, res) => {
 });
 
 //route to retieve a specific user
-router.get("/user/:username", authorise, async (req, res) => {
+router.get("/user/:username", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username }); //fetching a user by username from db
     if (!user) {
@@ -78,6 +78,10 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" }); //response for invalid credentials
     }
 
+	if(user.houseID == null){
+		return res.json({ message: "RHP" }); //response for invalid credentials
+	}
+
     const token = generateToken(user.userID, user.houseID); //generating token
     res.json({token}); //send the user as a json response
 
@@ -87,19 +91,10 @@ router.post("/login", async (req, res) => {
 });
 
 //route to update a user
-router.put("/user/:username", authorise, async (req, res) => {
+router.put("/user/:username", async (req, res) => {
   try {
-    const { username, firstName, lastName, email, age, password, role } =
-      req.body; //taking data from body request
-    const updatedUser = {
-      username,
-      firstName,
-      lastName,
-      email,
-      age,
-      password,
-      role,
-    }; //creating new updated user
+    const { houseID } = req.body; // Only updating houseID
+    const updatedUser = { houseID }; //creating new updated user
     const user = await User.findOneAndUpdate(
       { username: req.params.username },
       updatedUser,
@@ -116,7 +111,7 @@ router.put("/user/:username", authorise, async (req, res) => {
 });
 
 //route to delete user
-router.delete("/user/:username", authorise, async (req, res) => {
+router.delete("/user/:username", async (req, res) => {
   try {
     const user = await User.findOneAndDelete({ username: req.params.username }); //deleting a user by id from db
     if (!user) {

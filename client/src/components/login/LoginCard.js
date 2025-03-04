@@ -9,10 +9,12 @@ import {
   Box,
 } from '@mui/material';
 import axios from 'axios';
+import JoinHouseCard from './JoinHouseCard'; // Import JoinHouseCard component
 
 const LoginCard = ({ onToggle }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showJoinHouse, setShowJoinHouse] = useState(false); // State to toggle JoinHouseCard
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,12 +24,21 @@ const LoginCard = ({ onToggle }) => {
         password,
       });
       console.log('User logged in:', response.data);
-      setUsername('');
-      setPassword('');
+      
+      if (response.data.message === "RHP") {
+        setShowJoinHouse(true); // Show JoinHouseCard if user needs to join a house
+      } else {
+        setUsername('');
+        setPassword('');
+      }
     } catch (error) {
       console.error('Error logging in:', error);
     }
   };
+
+  if (showJoinHouse) {
+    return <JoinHouseCard username={username} password={password} />; // Render JoinHouseCard if needed
+  }
 
   return (
     <Container
