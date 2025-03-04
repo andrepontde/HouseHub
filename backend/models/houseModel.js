@@ -10,30 +10,34 @@ const { listSearchIndexes } = require('./memosModel');
 const Schema = mongoose.Schema;
 
 const houseSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
     address: {
         type: String,
-        require : true
+        require: true
     },
     houseID: {
         type: String,
-        require : true,
+        require: true,
         default: uuidv4,
-        unique : true
+        unique: true
     },
     eircode: {
         type: String,
-        require : true
-    }, 
+        require: true
+    },
     landlord: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    Key: {
+    key: {
         type: String,
-        require : true,
+        require: true,
         default: uuidv4,
-        unique : true
+        unique: true
     },
     //tenants stored in an array
     tenants: [{

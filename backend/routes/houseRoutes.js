@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const House = require("../models/houseModel.js");
-//didnt imiplement any ENV cause not sure how to use it yet
+const { v4: uuidv4 } = require('uuid'); // Add this line to import uuid
 
 //create new house
 router.post("/houses", async (req, res) => {
   try {
-    const { address, eircode, landlord, key } = req.body;
-    const newHouse = new House({ address, eircode, landlord, key }); //new isntance
+    const { name, address, eircode, landlord, key } = req.body;
+    const newHouse = new House({name, address, eircode, landlord, key: uuidv4() }); // Use uuidv4 for key
     await newHouse.save();
     res.status(201).json(newHouse); // saves to mongoDB
   } catch (error) {
@@ -39,9 +39,9 @@ router.get("/house/:key", async (req, res) => {
 //update house
 router.put("/house/:key", async (req, res) => {
   try {
-    const { address, eircode, landlord, key } = req.body;
-    const updatedHouse = { address, eircode, landlord, key };  // update object. retrieve data and send updated data
-    const house = await House.findOneAndUpdate(// from mongoose doc from dylan
+    const { address, eircode, landlord } = req.body;
+    const updatedHouse = { address, eircode, landlord };  // update object. retrieve data and send updated data
+    const house = await House.findOneAndUpdate(
       { key: req.params.key },
       updatedHouse, // replace/update
       { new: true }

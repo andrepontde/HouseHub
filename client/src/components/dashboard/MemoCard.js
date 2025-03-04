@@ -46,6 +46,8 @@ const MemoCard = () => {
            )}
         </Card>
     </Container>
-  )};
+    )};
+  
+  export default MemoCard;
 
 
