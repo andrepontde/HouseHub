@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Container, Box } from '@mui/material';
+import { Card, CardContent, Typography, Container,CardHeader, Box } from '@mui/material';
 import axios from 'axios';
 
 const MemoCard = () => {
@@ -25,9 +25,11 @@ const MemoCard = () => {
 
   return (
     <Container>
-
         <Card sx={{ marginBottom: 2, boxShadow: 3 }}>
-        {memos.map((memo) => (
+          <CardHeader title="Memos" sx={{textAlign : "center"}}/>
+          {/* Using the tenary operator we can check if the memos are empty and output info based on that */}
+            {memos.length > 0 ?(
+         memos.map((memo) => (
           <CardContent key={memo.memoID}>
             <Typography variant="h6" component="div">
               {memo.title}
@@ -35,11 +37,15 @@ const MemoCard = () => {
             <Typography variant="body2" color="text.secondary" sx={{fontFamily: "roboto"}}>
               {memo.content}
             </Typography>
-          </CardContent>))}
+          </CardContent>))) : (
+               <CardContent>
+               <Typography variant="body1" color="text.secondary" sx={{ textAlign: "center", fontFamily:"roboto" }}>
+                 No memos available.
+               </Typography>
+             </CardContent>
+           )}
         </Card>
-
     </Container>
-  );
-};
+  )};
 
-export default MemoCard;
+
