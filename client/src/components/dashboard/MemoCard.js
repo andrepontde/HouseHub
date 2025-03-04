@@ -25,18 +25,19 @@ const MemoCard = () => {
 
   return (
     <Container>
-      {memos.map((memo) => (
-        <Card key={memo.memoID} sx={{ marginBottom: 2, boxShadow: 3 }}>
-          <CardContent>
+
+        <Card sx={{ marginBottom: 2, boxShadow: 3 }}>
+        {memos.map((memo) => (
+          <CardContent key={memo.memoID}>
             <Typography variant="h6" component="div">
               {memo.title}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" sx={{fontFamily: "roboto"}}>
               {memo.content}
             </Typography>
-          </CardContent>
+          </CardContent>))}
         </Card>
-      ))}
+
     </Container>
   );
 };
