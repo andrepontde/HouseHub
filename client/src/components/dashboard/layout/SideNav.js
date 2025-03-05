@@ -1,37 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartLine, faStickyNote, faWrench, faCalendar } from '@fortawesome/free-solid-svg-icons';
-import 'styles/sidebar-nav.css'
+import React from "react";
+import { Link } from "react-router-dom";
+import { Drawer, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Dashboard, Note, Build, CalendarToday } from "@mui/icons-material";
 
-
-const Sidebar = () => {
+const SideNavBar = () => {
     return (
-        <nav className="sidebar">
-            <ul>
-                <li>
-                    <Link to="/dashboard">
-                        <FontAwesomeIcon icon={faChartLine} /> <span>Dashboard</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/memos">
-                        <FontAwesomeIcon icon={faStickyNote} /> <span>Memos</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/utility">
-                        <FontAwesomeIcon icon={faWrench} /> <span>Utility</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/calendar">
-                        <FontAwesomeIcon  icon={faCalendar} /> <span>Calendar</span>
-                    </Link>
-                </li>
-            </ul>
-        </nav>
+        <Drawer variant="permanent" sx={{ width: 240, flexShrink: 0 }}>
+            <List>
+                <ListItemButton component={Link} to="/dashboard">
+                    <ListItemIcon>
+                        <Dashboard />
+                    </ListItemIcon>
+                    <ListItemText primary="Dashboard" />
+                </ListItemButton>
+
+                <ListItemButton component={Link} to="/memos">
+                    <ListItemIcon>
+                        <Note />
+                    </ListItemIcon>
+                    <ListItemText primary="Memos" />
+                </ListItemButton>
+
+                <ListItemButton component={Link} to="/utility">
+                    <ListItemIcon>
+                        <Build />
+                    </ListItemIcon>
+                    <ListItemText primary="Utility" />
+                </ListItemButton>
+
+                <ListItemButton component={Link} to="/calendar">
+                    <ListItemIcon>
+                        <CalendarToday />
+                    </ListItemIcon>
+                    <ListItemText primary="Calendar" />
+                </ListItemButton>
+            </List>
+        </Drawer>
     );
 };
 
-export default Sidebar;
+export default SideNavBar;

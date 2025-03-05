@@ -1,13 +1,11 @@
 import React from 'react';
 import { Container, Typography } from '@mui/material';
 import TheMainNavBar from 'components/layout/MainNav';
+import MainHero from 'components/Landing/MainHero';
 const Landing = () => {
     return (<>
         <TheMainNavBar />
-        <Container>        <div>
-           <Typography variant="h2" sx={{fontFamily : "roboto"}}>This is the landing page</Typography>
-        </div>
-        </Container>
+        <MainHero/>
 
         </>
     );

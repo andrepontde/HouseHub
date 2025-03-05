@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
+import { Link, useNavigate} from 'react-router-dom';
 import { Card, CardContent, Typography, Container,CardHeader, Box } from '@mui/material';
+
 import axios from 'axios';
 
-const MemoCard = () => {
+ const MemoCard = () => {
   const [memos, setMemos] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchMemos = async () => {
       try {
@@ -26,7 +28,11 @@ const MemoCard = () => {
   return (
     <Container>
         <Card sx={{ marginBottom: 2, boxShadow: 3 }}>
-          <CardHeader title="Memos" sx={{textAlign : "center"}}/>
+        <CardHeader title={
+            <Link to="/memos" style={{ textDecoration: 'none', color: 'inherit' }}>
+              Memos
+            </Link>
+          }sx={{ textAlign: "center" }} />
           {/* Using the tenary operator we can check if the memos are empty and output info based on that */}
             {memos.length > 0 ?(
          memos.map((memo) => (
@@ -47,5 +53,5 @@ const MemoCard = () => {
         </Card>
     </Container>
   )};
-
+  export default MemoCard;
 
