@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const uri = "mongodb+srv://Admin:User@househubdb.8pvzl.mongodb.net/?retryWrites=true&w=majority&appName=HouseHubDB";
 const memosRoutes = require('./routes/memosRoutes');//importing file
 const userRoutes = require('./routes/userRoutes');//importing file
+const houseRoutes = require('./routes/houseRoutes');//importing file
 
 
 const app = express();
@@ -52,6 +53,8 @@ app.use('/api', memosRoutes);
 
 app.use('/api', userRoutes);
 
+app.use('/api', houseRoutes);
+ 
 
 
 //(leaving this here in case we need it in the future but can delete)
