@@ -18,7 +18,7 @@ const LoginCard = ({ onToggle }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showJoinHouse, setShowJoinHouse] = useState(false); // State to toggle JoinHouseCard
+  const [showJoinHouse, setShowJoinHouse] = useState(); // State to toggle JoinHouseCard
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,8 +29,9 @@ const LoginCard = ({ onToggle }) => {
       });
       console.log('User logged in:', response.data);
 
+
       if (response.data.message === "RHP") {
-        setShowJoinHouse(true); // Show JoinHouseCard if user needs to join a house
+        setShowJoinHouse(); // Show JoinHouseCard if user needs to join a house
       } else {
         // if login successful and house exists we navigate
         localStorage.setItem("token", response.data.token);

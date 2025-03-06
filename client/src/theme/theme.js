@@ -4,6 +4,7 @@ import '@fontsource/roboto/500.css';
 
 import { createTheme } from '@mui/material/styles';
 
+
 const getTheme = (mode) => // for this file this will hold the new color scheme for all pages which opt for light or dark mode , It will simply be an export that we will wrap our entire app with using <ThemeProvider > using mui , this will save overwriting styling in individual files .
   createTheme({
     palette: {
@@ -19,11 +20,17 @@ const getTheme = (mode) => // for this file this will hold the new color scheme 
         secondary: mode === 'dark' ? '#94a3b8' : '#64748b',
       },
       accent: { main: mode === 'dark' ? '#facc15' : '#f59e0b' },
+      images:
+        {heroLogo : mode === 'dark' ? "darkLogo" : "lightLogo",
+      },
     },
     typography:{
         fontFamily: '"Sniglet", "Roboto", sans-serif',
 
     },
+
+
+
   });
 
 export default getTheme;
