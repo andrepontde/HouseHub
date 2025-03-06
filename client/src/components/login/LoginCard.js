@@ -33,6 +33,7 @@ const LoginCard = ({ onToggle }) => {
         setShowJoinHouse(true); // Show JoinHouseCard if user needs to join a house
       } else {
         // if login successful and house exists we navigate
+        localStorage.setItem("token", response.data.token);
         setUsername('');
         setPassword('');
         navigate('/dashboard');
