@@ -1,0 +1,35 @@
+import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const WelcomeMessage = () => {
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:5001/api/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setUsername(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching User:", error);
+      }
+    };
+
+    fetchUserName();
+  }, []);
+
+  return (
+    <>
+      <Typography variant="h3">Hello {username}</Typography>
+    </>
+  );
+};
+
+export default WelcomeMessage;

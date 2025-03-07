@@ -5,7 +5,7 @@ import { Dashboard, Note, Build, CalendarToday } from "@mui/icons-material";
 
 const SideNavBar = () => {
     return (
-        <Drawer variant="permanent" sx={{ width: 240, flexShrink: 0 }}>
+        <Drawer variant="permanent" sx={{ width: 240, flexShrink: 1 }}>
             <List>
                 <ListItemButton component={Link} to="/dashboard">
                     <ListItemIcon>
