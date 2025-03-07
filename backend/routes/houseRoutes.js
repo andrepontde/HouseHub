@@ -40,6 +40,18 @@ router.get("/:houseID", authorise, async (req, res) => {
   }
 });
 
+// get a key for a house
+router.get("/:houseID/key", authorise, async (req, res) => {  
+  try{ 
+    const house = await House.findOne({ houseID: req.params.houseID });
+    if (!house) {
+       return res.status(404).json({ message: "House not found" });
+    }
+    res.json(house.key);
+  } catch(error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 //update house
 router.put("/update/:houseID", authorise, async (req, res) => {
   try {
