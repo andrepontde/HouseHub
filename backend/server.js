@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const uri = "mongodb+srv://Admin:User@househubdb.8pvzl.mongodb.net/?retryWrites=true&w=majority&appName=HouseHubDB";
 const memosRoutes = require('./routes/memosRoutes');//importing file
 const userRoutes = require('./routes/userRoutes');//importing file
+const houseRoutes = require('./routes/houseRoutes');//importing file
+const billTrackerRoutes = require('./routes/billTrackerRoutes');//importing file
 
 
 const app = express();
@@ -48,10 +50,14 @@ app.listen(PORT, () => {
 
 
 //the defined routes are accessable through http://localhost:5000/api/memo
-app.use('/api', memosRoutes);
+app.use('/api/memo', memosRoutes);
 
-app.use('/api', userRoutes);
+app.use('/api/user', userRoutes);
 
+app.use('/api/house', houseRoutes);
+
+app.use('/api/bills', billTrackerRoutes);
+ 
 
 
 //(leaving this here in case we need it in the future but can delete)

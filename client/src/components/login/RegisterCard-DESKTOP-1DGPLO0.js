@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import JoinHouseCard from './JoinHouseCard'; // Import JoinHouseCard component
-
 import axios from 'axios';
 import {
   Card,
@@ -25,7 +23,6 @@ const RegisterCard = ({ onToggle }) => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('tenant');
   const [houseID, setHouseID] = useState('');
-  const [showJoinHouse, setShowJoinHouse] = useState(false); // State to toggle JoinHouseCard
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,18 +37,19 @@ const RegisterCard = ({ onToggle }) => {
         role,
         houseID,
       });
-
       console.log('User registered:', response.data);
-      setShowJoinHouse(true);
-
+      setUsername('');
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setAge('');
+      setPassword('');
+      setRole('tenant');
+      setHouseID('');
     } catch (error) {
       console.error('Error registering user:', error);
     }
   };
-
-  if (showJoinHouse) {
-    return <JoinHouseCard username={username} password={password} />; // Render JoinHouseCard if needed
-  }
 
   return (
     <Container

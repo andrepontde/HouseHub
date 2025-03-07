@@ -6,43 +6,50 @@
 //tenants
 //key
 const mongoose = require('mongoose');
-const { listSearchIndexes } = require('./memosModel');
 const Schema = mongoose.Schema;
+const { v4: uuidv4 } = require('uuid');
 
 const houseSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
     address: {
         type: String,
-        require : true
+        required: true
     },
     houseID: {
         type: String,
-        require : true,
-        default: uuidv4,
-        unique : true
+        required: true,
+        unique: true,
+        default: uuidv4
     },
     eircode: {
         type: String,
-        require : true
-    }, 
-    landlord: {
-        type: Schema.Types.ObjectId,
+        required: true
+    },
+    userID: {
+        type: String,
         ref: 'User',
         required: true
     },
-    Key: {
+    key: {
         type: String,
-        require : true,
+        required: true,
         default: uuidv4,
-        unique : true
+        unique: true
     },
     //tenants stored in an array
     tenants: [{
-        type: Schema.Types.ObjectId,
+        type: String,
+        required: true,
         ref: 'User' //referencing the user model
     }]
 });
 
 
-houseSchema.index({key: 1});//adding index to key for querying 
+
 
 module.exports = mongoose.model('house', houseSchema);//exporting model to be used in routes
+
+//change lanmdlord to userID and fix post route to take from token

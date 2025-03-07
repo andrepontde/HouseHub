@@ -52,6 +52,10 @@ import axios from 'axios';
            )}
         </Card>
     </Container>
-  )};
+
+    )};
+  
   export default MemoCard;
+
+
 

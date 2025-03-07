@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
 import {
   Card,
   CardContent,
@@ -10,15 +9,10 @@ import {
   Box,
 } from '@mui/material';
 import axios from 'axios';
-import JoinHouseCard from './JoinHouseCard'; // Import JoinHouseCard component
-
 
 const LoginCard = ({ onToggle }) => {
-  // use Navigate custom hook for navigating to dashboard for when login is successful
-  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showJoinHouse, setShowJoinHouse] = useState(); // State to toggle JoinHouseCard
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,26 +22,12 @@ const LoginCard = ({ onToggle }) => {
         password,
       });
       console.log('User logged in:', response.data);
-
-
-      if (response.data.message === "RHP") {
-        setShowJoinHouse(); // Show JoinHouseCard if user needs to join a house
-      } else {
-        // if login successful and house exists we navigate
-        localStorage.setItem("token", response.data.token);
-        setUsername('');
-        setPassword('');
-        navigate('/dashboard');
-
-      }
+      setUsername('');
+      setPassword('');
     } catch (error) {
       console.error('Error logging in:', error);
     }
   };
-
-  if (showJoinHouse) {
-    return <JoinHouseCard username={username} password={password}/>; // Render JoinHouseCard if needed
-  }
 
   return (
     <Container

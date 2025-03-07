@@ -6,6 +6,16 @@ const Landing = () => {
     return (<>
         <TheMainNavBar />
         <MainHero/>
+         <Container
+                     sx={{
+                       display: 'flex',
+                       justifyContent: 'center',
+                       alignItems: 'center',
+                       minHeight: '100vh',
+                     }}
+                   >
+        <MainHero/>
+        </Container>
 
         </>
     );

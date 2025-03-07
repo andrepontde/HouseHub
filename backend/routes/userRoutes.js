@@ -48,6 +48,20 @@ router.get("/users", authorise, async (req, res) => {
 });
 
 //route to retieve a specific user
+router.get("/user", authorise, async (req, res) => {
+  try {
+    const user = await User.findOne({ userID: req.user.userID }); //fetching a user by username from db
+    if (!user) {
+      //if user not found
+      return res.status(404).json({ message: "User not found" }); //response for user not found
+    }
+    res.json(user.username); //send the user as a json response
+  } catch (error) { 
+    res.status(500).json({ error: error.message }); //response for an error
+  }
+});
+
+//route to retieve a specific user
 router.get("/user/:username", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username }); //fetching a user by username from db
@@ -60,6 +74,8 @@ router.get("/user/:username", async (req, res) => {
     res.status(500).json({ error: error.message }); //response for an error
   }
 });
+
+//add route for userid
 
 //route to handle user login
 router.post("/login", async (req, res) => {
