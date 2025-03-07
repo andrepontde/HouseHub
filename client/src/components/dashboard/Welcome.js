@@ -9,7 +9,8 @@ const WelcomeMessage = () => {
     const fetchUserName = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:5001/api/user", {
+        console.log(token)
+        const response = await axios.get("http://localhost:5001/api/user/user", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

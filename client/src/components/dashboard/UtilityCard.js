@@ -11,7 +11,7 @@ import axios from 'axios';
     const fetchMemos = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5001/api/house/memos', {
+        const response = await axios.get('http://localhost:5001/api/memo/house/memos', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
