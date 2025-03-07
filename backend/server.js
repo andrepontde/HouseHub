@@ -9,6 +9,7 @@ const memosRoutes = require('./routes/memosRoutes');//importing file
 const userRoutes = require('./routes/userRoutes');//importing file
 const houseRoutes = require('./routes/houseRoutes');//importing file
 const billTrackerRoutes = require('./routes/billTrackerRoutes');//importing file
+const todolistRoutes = require('./routes/todolistRoutes');//importing file  
 
 
 const app = express();
@@ -49,7 +50,7 @@ app.listen(PORT, () => {
 
 
 
-//the defined routes are accessable through http://localhost:5000/api/memo
+//the defined routes are accessable through http://localhost:5001/api/memo
 app.use('/api/memo', memosRoutes);
 
 app.use('/api/user', userRoutes);
@@ -57,6 +58,8 @@ app.use('/api/user', userRoutes);
 app.use('/api/house', houseRoutes);
 
 app.use('/api/bills', billTrackerRoutes);
+ 
+app.use('/api/todolist', todolistRoutes);
  
 
 
