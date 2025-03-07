@@ -6,20 +6,8 @@ const authorise = require("../middleware/authorisationMiddleware.js");
 // Filter todolist items by dueDate
 router.get("/todolists/filter", async (req, res) => {
     try {
-      const { dueDate } = req.query; 
-      const targetDate = new Date(dueDate);
-      const todolists = await Todolist.find({// find matching dates
-        //a few approches are possible here ill list them beloww and space them with comments
-        //first one only sorts by time meaning date would not matter
-        dueDate: {
-        //in mongoDB $gte is greater or equal to
-          $gte: new Date(targetDate.setHours(0, 0, 0, 0)), // first time hours, minutes, seconds, milliseconds
-        // $lt is less than 
-          $lt: new Date(targetDate.setHours(23, 59, 59, 999)), // second time hours, minutes, seconds, milliseconds
-        },
-      }).sort({ dueDate: -1 }); //this sorts it by the most recent time to latest. this is determind by the -1 and the fields you would prompt up top
-  
-      //return 
+      const todolists = await todolist.find().sort({ dueDate: -1 }); //this sorts it by the most recent time to latest. this is determind by the -1 and the contents in MongoDBs
+
       res.json(todolists);
     } catch (error) {
       res.status(500).json({ error: error.message });
