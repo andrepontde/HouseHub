@@ -9,8 +9,8 @@ const MainHero = () => {
     return (
         <Container>
 
-            <img src={theme === "light" ? imageLight : imageDark} alt="HouseHub Logo" />
-            <img src={`assets/HouseHub${theme.palette.images.heroLogo}.png`} alt="HouseHub Logo"/>
+            {/* <img src={theme === "light" ? imageLight : imageDark} alt="HouseHub Logo" />
+            <img src={`assets/HouseHub${theme.palette.images.heroLogo}.png`} alt="HouseHub Logo"/> */}
 
         </Container>
     );

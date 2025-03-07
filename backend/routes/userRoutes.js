@@ -75,7 +75,19 @@ router.get("/user/:username", async (req, res) => {
   }
 });
 
-//add route for userid
+//route to retieve a specific user by userID
+router.get("/user/id/:userID", async (req, res) => {
+  try {
+    const user = await User.findOne({ userID: req.params.userID }); //fetching a user by userID from db
+    if (!user) {
+      //if user not found
+      return res.status(404).json({ message: "User not found" }); //response for user not found
+    }
+    res.json(user); //send the user as a json response
+  } catch (error) {
+    res.status(500).json({ error: error.message }); //response for an error
+  }
+});
 
 //route to handle user login
 router.post("/login", async (req, res) => {

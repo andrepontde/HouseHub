@@ -23,22 +23,21 @@ const LoginCard = ({ onToggle }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5001/api/login', {
+      const response = await axios.post('http://localhost:5001/api/user/login', {
         username,
         password,
       });
       console.log('User logged in:', response.data);
 
-
       if (response.data.message === "RHP") {
-        setShowJoinHouse(); // Show JoinHouseCard if user needs to join a house
+        console.log('User needs to join a house');
+        setShowJoinHouse(true); // Explicitly set to true to show JoinHouseCard
       } else {
         // if login successful and house exists we navigate
         localStorage.setItem("token", response.data.token);
         setUsername('');
         setPassword('');
         navigate('/dashboard');
-
       }
     } catch (error) {
       console.error('Error logging in:', error);
