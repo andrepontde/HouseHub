@@ -6,10 +6,10 @@ const User = require("../models/userModel.js"); // User model import so can upda
  const generateToken = require("../utils/generateToken.js");
 
 //create new house
-router.post("/create", authorise, async (req, res) => {
+router.post("/create", async (req, res) => {
+
   try {
-    const { name, address, eircode } = req.body;
-    const userID = req.user.userID;
+    const { name, address, eircode, userID } = req.body;
     const newHouse = new House({name, address, eircode, userID }); // Use uuidv4 for key
     await newHouse.save();
     res.status(201).json(newHouse); // saves to mongoDB

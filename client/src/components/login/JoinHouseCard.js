@@ -12,6 +12,7 @@ import axios from 'axios';
 
 const JoinHouseCard = ({ username, password }) => {
   const [houseID, setHouseID] = useState('');
+  const [userID, setUserID] = useState('');
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [eircode, setEircode] = useState('');
@@ -20,8 +21,10 @@ const JoinHouseCard = ({ username, password }) => {
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/user/${username}`);
+        const response = await axios.get(`http://localhost:5001/api/user/user/${username}`);
         setRole(response.data.role);
+        console.log('User id:', response.data.userID);
+        setUserID(response.data.userID);
       } catch (error) {
         console.error('Error fetching user role:', error);
       }
@@ -32,13 +35,13 @@ const JoinHouseCard = ({ username, password }) => {
   const handleJoinHouse = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5001/api/user/${username}`, {
+      const response = await axios.put(`http://localhost:5001/api/user/user/${username}`, {
         houseID,
       });
 
       console.log('House joined:', response.data);
 
-      const loginToken = await axios.post('http://localhost:5001/api/login', {
+      const loginToken = await axios.post('http://localhost:5001/api/user/login', {
         username,
         password,
       });
@@ -55,16 +58,20 @@ const JoinHouseCard = ({ username, password }) => {
   const handleCreateHouse = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5001/api/houses', {
+      const response = await axios.post('http://localhost:5001/api/house/create', {
         name,
         address,
         eircode,
-        landlord: username,
+        userID,
       });
 
       console.log('House created:', response.data);
 
-      const loginToken = await axios.post('http://localhost:5001/api/login', {
+      const house = await axios.put(`http://localhost:5001/api/user/user/${username}`, {
+        houseID,
+      });
+
+      const loginToken = await axios.post('http://localhost:5001/api/user/login', {
         username,
         password,
       });
