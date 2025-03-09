@@ -30,9 +30,9 @@ router.get("/houses", authorise, async (req, res) => {
 });
 
 //get house by Key
-router.get("/:houseID", authorise, async (req, res) => {
+router.get("/house", authorise, async (req, res) => {
   try {
-    const house = await House.findOne({ key: req.params.houseID }); //finds house by key
+    const house = await House.findOne({ key: req.user.houseID }); //finds house by key
     if (!house) return res.status(404).json({ message: "House not found" });
     res.json(house); 
   } catch (error) {
@@ -111,6 +111,43 @@ router.put("/:houseID/addTenant", authorise, async (req, res) => {
     const token =  generateToken({userID, houseID: house.houseID});
   
     res.json({token});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Remove a tenant from house
+router.put("/removeTenant/:userID", authorise, async (req, res) => {
+  try {
+    const userToRemoveID = req.params.userID;
+    const houseID = req.user.houseID;
+    
+    if (!houseID) {
+      return res.status(400).json({ message: "User is not associated with any house" });
+    }
+    
+    const house = await House.findOne({ houseID: houseID });
+    
+    if (!house) {
+      return res.status(404).json({ message: "House not found" });
+    }
+    
+    // Check if the tenant exists in the house
+    if (!house.tenants.includes(userToRemoveID)) {
+      return res.status(400).json({ message: "User is not a tenant in this house" });
+    }
+    
+    // Remove tenant from house
+    house.tenants = house.tenants.filter(id => id !== userToRemoveID);
+    await house.save();
+    
+    // Update the user's houseID to null
+    await User.findOneAndUpdate(
+      { userID: userToRemoveID },
+      { houseID: null }
+    );
+    
+    res.json({ message: "Tenant removed successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
