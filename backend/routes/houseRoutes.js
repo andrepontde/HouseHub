@@ -81,10 +81,10 @@ router.delete("/delete/:houseID", authorise, async (req, res) => {
 });
 
 //add tenant to house
-router.put("/:houseID/addTenant", authorise, async (req, res) => {
+router.put("/addTenant/:houseID", authorise, async (req, res) => {
   try{ 
     const userID = req.user.userID;
-    const {key} = req.body;
+    // const {key} = req.body;
 
     const house = await House.findOne({ houseID: req.params.houseID });
 
@@ -94,9 +94,9 @@ router.put("/:houseID/addTenant", authorise, async (req, res) => {
     if (house.tenants.includes(userID)) { //if tenant already exists
       return res.status(400).json({ message: "Tenant already exists" });
     }
-    if (house.key !== key) { //if key is invalid
-      return res.status(400).json({ message: "Invalid key" });
-    }
+    // if (house.key !== key) { //if key is invalid
+    //   return res.status(400).json({ message: "Invalid key" });
+    // }
 
     house.tenants.push(userID);
     await house.save();

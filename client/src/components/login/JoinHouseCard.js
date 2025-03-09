@@ -38,18 +38,28 @@ const JoinHouseCard = ({ username, password }) => {
       const response = await axios.put(`http://localhost:5001/api/user/user/${username}`, {
         houseID,
       });
-
-      console.log('House joined:', response.data);
-
       const loginToken = await axios.post('http://localhost:5001/api/user/login', {
-        username,
-        password,
+              username,
+              password,
       });
 
       if (loginToken) {
         localStorage.setItem("token", loginToken.data.token);
         window.location.href = '/dashboard';
       }
+
+
+      const houseReg = await axios.put(`http://localhost:5001/api/house/addTenant/${houseID}`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      });
+
+      console.log('House joined:', response.data + "UserToken: "+ loginToken +"  HouseToken:"+ houseReg.data);
+
+      
+
+      
     } catch (error) {
       console.error('Error joining house:', error);
     }
