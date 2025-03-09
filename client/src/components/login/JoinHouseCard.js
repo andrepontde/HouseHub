@@ -39,29 +39,33 @@ const JoinHouseCard = ({ username, password }) => {
         houseID,
       });
       const loginToken = await axios.post('http://localhost:5001/api/user/login', {
-              username,
-              password,
+        username,
+        password,
       });
-
-      if (loginToken) {
-        localStorage.setItem("token", loginToken.data.token);
-        window.location.href = '/dashboard';
+      if (!loginToken) {
+        console.log("No token received");
+        return;
       }
 
-
-      const houseReg = await axios.put(`http://localhost:5001/api/house/addTenant/${houseID}`,{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      localStorage.setItem("token", loginToken.data.token);
+      console.log('UserToken: '+ loginToken.data.token);
+      
+      // Include userID in the request body
+      const response2 = await axios.put(
+        `http://localhost:5001/api/house/addTenant/${houseID}`,
+        { userID: userID }, // Include userID in the request body
+        {
+          headers: {
+            Authorization: `Bearer ${loginToken.data.token}`,
+          },
         }
-      });
+      );
+      console.log('House joined:', response.data, "UserToken: ", loginToken.data.token, "  HouseToken:", response2.data);
+      window.location.href = '/dashboard';
 
-      console.log('House joined:', response.data + "UserToken: "+ loginToken +"  HouseToken:"+ houseReg.data);
-
-      
-
-      
     } catch (error) {
-      console.error('Error joining house:', error);
+      console.error('Error joining house:', error.response ? error.response.data : error.message);
+      alert('Failed to join house. Please check the console for details.');
     }
   };
 
