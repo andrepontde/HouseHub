@@ -84,6 +84,10 @@ router.delete("/delete/:houseID", authorise, async (req, res) => {
   if (house.userID !== req.user.userID) {
     return res.status(401).json({ message: "You are not authorised to delete this house" });
   }
+
+    //updating tenants id to null 
+    await User.updateMany({ userID: { $in: house.tenants } }, { houseID: null });
+
     await Memo.deleteMany({ houseID }); // delete all memos by houseID
     await Bill.deleteMany({ houseID }); // delete all bills by houseID
     await TodoList.deleteMany({ houseID }); // delete all todo lists by houseID
