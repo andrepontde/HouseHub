@@ -32,7 +32,7 @@ router.get("/houses", authorise, async (req, res) => {
 //get house by Key
 router.get("/house", authorise, async (req, res) => {
   try {
-    const house = await House.findOne({ key: req.user.houseID }); //finds house by key
+    const house = await House.findOne({ houseID: req.user.houseID }); //finds house by key
     if (!house) return res.status(404).json({ message: "House not found" });
     res.json(house); 
   } catch (error) {

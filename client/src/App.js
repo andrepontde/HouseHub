@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Landing from 'pages/landingPage';
 import LoginPage from 'pages/loginPage';
 import DashBoard from 'pages/mainDash';
+import AdminPage from 'pages/adminPage';
 
 function App(){
 
@@ -21,6 +22,7 @@ function App(){
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element ={<DashBoard />} />
+        <Route path="/admin" element ={<AdminPage />} />
     </Routes>
 </BrowserRouter>
 </ThemeProvider>

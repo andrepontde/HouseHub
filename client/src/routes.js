@@ -6,6 +6,8 @@ import Landing from './pages/landingPage';
 import Memos from './pages/memosPage';
 import Utility from './pages/utilityPage';
 import NotFound from './pages/notFound';
+import AdminPage from './pages/adminPage';
+
 // This will define the routes with the associated components needed for rendering
 const router = createBrowserRouter([
     { path: '/', element: <Landing /> },
@@ -14,6 +16,7 @@ const router = createBrowserRouter([
     { path: '/memos', element: <Memos /> },
     { path: '/utility', element: <Utility /> },
     { path: '*', element: <NotFound /> },
+    { path: '/admin', element: <AdminPage /> }
 ]);
 
 const AppRoutes = () => {

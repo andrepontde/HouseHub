@@ -55,7 +55,7 @@ router.get("/user", authorise, async (req, res) => {
       //if user not found
       return res.status(404).json({ message: "User not found" }); //response for user not found
     }
-    res.json({user: user.username}); //send the user as a json response
+    res.json({user: user}); //send the user as a json response
   } catch (error) { 
     res.status(500).json({ error: error.message }); //response for an error
   }
