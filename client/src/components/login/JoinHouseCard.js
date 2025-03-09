@@ -80,6 +80,7 @@ const JoinHouseCard = ({ username, password }) => {
       });
 
       console.log('House created:', response.data);
+      
 
       const house = await axios.put(`http://localhost:5001/api/user/user/${username}`, {
         houseID: response.data.houseID,
