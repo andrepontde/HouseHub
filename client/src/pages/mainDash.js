@@ -9,9 +9,9 @@ const drawerWidth = 240; // Adjust based on your SideNav width
 
 const DashBoard = () => {
   return (
-    <Box sx={{ display: "flex" }}>
-      <SideNavBar />
-      <Container component="header" sx={{ justifyContent:"center", width:"100vh"}}>
+
+    <Box sx={{ display: "flex", flexDirection:"column"}}>
+      <Container sx={{alignItems:"center"}}>
       <WelcomeMessage />
       </Container>
       <Box
@@ -22,7 +22,7 @@ const DashBoard = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh",
+          minHeight: "100vh"
         }}
       >
 
