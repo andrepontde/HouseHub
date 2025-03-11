@@ -1,9 +1,0 @@
-@import url('./variables.css');
-
-nav{
-    background-color: var(--accent-color);
-
-}
-a{
-    color: var(secondary-color);
-}

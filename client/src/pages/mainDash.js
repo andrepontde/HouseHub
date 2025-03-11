@@ -5,6 +5,7 @@ import MemoCard from "components/dashboard/MemoCard";
 import { Container, Box, Button } from "@mui/material";
 import UtilityCard from "components/dashboard/UtilityCard";
 import WelcomeMessage from "components/dashboard/Welcome";
+import TheMainNavBar from "components/layout/MainNav";
 
 const drawerWidth = 240; // Adjust based on your SideNav width
 
@@ -14,6 +15,7 @@ const DashBoard = () => {
   const navigateToAdmin = () => {
     navigate('/admin');
   };
+
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -27,6 +29,7 @@ const DashBoard = () => {
         >
           Go to Admin page
         </Button>
+
       </Container>
       <Box
         component="main"

@@ -16,7 +16,7 @@ const WelcomeMessage = () => {
           },
         });
 
-        setUsername(response.data);
+        setUsername(response.data.username);
         console.log(response.data)
       } catch (error) {
         console.error("Error fetching User:", error);

@@ -19,10 +19,9 @@ import axios from "axios";
 
 const MemoCard = () => {
   const [memos, setMemos] = useState([]);
-  const [newMemo, setNewMemo] = useState({ title: "", content: "" }); // State for new memo
-  const [showCreateForm, setShowCreateForm] = useState(false); // Show/hide create form
+  const [newMemo, setNewMemo] = useState({ title: "", content: "" });
+  const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingMemo, setEditingMemo] = useState(null);
-  const [showEditOptions, setShowEditOptions] = useState({});
 
   useEffect(() => {
     const fetchMemos = async () => {
@@ -31,9 +30,7 @@ const MemoCard = () => {
         const response = await axios.get(
           "http://localhost:5001/api/memo/house/memos",
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
         setMemos(response.data);
@@ -44,46 +41,6 @@ const MemoCard = () => {
     fetchMemos();
   }, []);
 
-  const handleToggleEditOptions = (memoId) => {
-    setShowEditOptions((prev) => ({
-      ...prev,
-      [memoId]: !prev[memoId],
-    }));
-  };
-
-  const handleEditClick = (memo) => {
-    setEditingMemo(memo);
-  };
-
-  const handleSave = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:5001/api/memo/${id}`, editingMemo, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setMemos(memos.map((m) => (m.memoID === id ? editingMemo : m)));
-      setEditingMemo(null);
-    } catch (error) {
-      console.error("Error updating memo:", error);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5001/api/memo/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setMemos(memos.filter((m) => m.memoID !== id));
-    } catch (error) {
-      console.error("Error deleting memo:", error);
-    }
-  };
-
   const handleCreateMemo = async () => {
     if (!newMemo.title.trim() || !newMemo.content.trim()) {
       alert("Title and content cannot be empty!");
@@ -92,13 +49,14 @@ const MemoCard = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post("http://localhost:5001/api/memo/create", newMemo, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:5001/api/memo/memo/create",
+        newMemo,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-      // Add the new memo to the list and reset form
       setMemos([...memos, response.data]);
       setNewMemo({ title: "", content: "" });
       setShowCreateForm(false);
@@ -107,33 +65,51 @@ const MemoCard = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:5001/api/memo/memo/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMemos(memos.filter((m) => m.memoID !== id));
+    } catch (error) {
+      console.error("Error deleting memo:", error);
+    }
+  };
+
+  const handleEditClick = (memo) => {
+    setEditingMemo({ memoID: memo.memoID, title: memo.title, content: memo.content });
+  };
+
+  const handleEditChange = (event) => {
+    setEditingMemo({ ...editingMemo, [event.target.name]: event.target.value });
+  };
+
+  const handleSave = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(`http://localhost:5001/api/memo/memo/${id}`, editingMemo, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMemos(memos.map((m) => (m.memoID === id ? editingMemo : m)));
+      setEditingMemo(null);
+    } catch (error) {
+      console.error("Error updating memo:", error);
+    }
+  };
+
   return (
     <Container sx={{ maxWidth: "600px", margin: "auto", paddingTop: 4 }}>
-      <Card
-        sx={{
-          boxShadow: 3,
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: "#fffae6",
-          borderRadius: "12px",
-          padding: 2,
-        }}
-      >
+      <Card sx={{ boxShadow: 3, display: "flex", flexDirection: "column", padding: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <CardHeader
-            title="📌 My Memos"
-            sx={{
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-            }}
-          />
+          <CardHeader title="Memos" sx={{ fontSize: "1.5rem", fontWeight: "bold" }} />
           <IconButton color="secondary" onClick={() => setShowCreateForm(true)}>
             <AddIcon />
           </IconButton>
         </Box>
 
         {showCreateForm && (
-          <Card sx={{ backgroundColor: "#fffbea", padding: 2, borderRadius: "10px", boxShadow: 2 }}>
+          <Card>
             <CardContent>
               <TextField
                 fullWidth
@@ -176,49 +152,75 @@ const MemoCard = () => {
 
         {memos.length > 0 ? (
           memos.map((memo) => (
-            <Card
-              key={memo.memoID}
-              sx={{
-                backgroundColor: "#fffbcc",
-                boxShadow: "4px 4px 10px rgba(0,0,0,0.1)",
-                borderRadius: "10px",
-                marginBottom: 2,
-                padding: 2,
-                position: "relative",
-                transition: "0.3s ease-in-out",
-                "&:hover": { transform: "scale(1.02)" },
-              }}
-            >
+            <Card key={memo.memoID} sx={{ mb: 2 }}>
               <CardContent sx={{ position: "relative" }}>
-                <IconButton
-                  aria-label="edit"
-                  sx={{
-                    position: "absolute",
-                    right: 16,
-                    top: 16,
-                    color: "#6b6b6b",
-                  }}
-                  onClick={() => handleToggleEditOptions(memo.memoID)}
-                >
-                  <EditIcon />
-                </IconButton>
-
-                <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
-                  {memo.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {memo.content}
-                </Typography>
-
-                {showEditOptions[memo.memoID] && (
-                  <Box sx={{ marginTop: 2, display: "flex", justifyContent: "space-between" }}>
-                    <Button variant="contained" color="primary" onClick={() => handleEditClick(memo)}>
-                      Edit
-                    </Button>
-                    <Button variant="contained" color="error" onClick={() => handleDelete(memo.memoID)}>
-                      Delete
-                    </Button>
-                  </Box>
+                {editingMemo && editingMemo.memoID === memo.memoID ? (
+                  <>
+                    <TextField
+                      fullWidth
+                      name="title"
+                      label="Title"
+                      variant="outlined"
+                      value={editingMemo.title}
+                      onChange={handleEditChange}
+                      sx={{ marginBottom: 1 }}
+                    />
+                    <TextField
+                      fullWidth
+                      name="content"
+                      label="Content"
+                      variant="outlined"
+                      multiline
+                      rows={3}
+                      value={editingMemo.content}
+                      onChange={handleEditChange}
+                    />
+                    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<SaveIcon />}
+                        onClick={() => handleSave(memo.memoID)}
+                        sx={{ mr: 1 }}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        startIcon={<CancelIcon />}
+                        onClick={() => setEditingMemo(null)}
+                      >
+                        Cancel
+                      </Button>
+                    </Box>
+                  </>
+                ) : (
+                  <>
+                    <IconButton
+                      aria-label="edit"
+                      sx={{ position: "absolute", right: 16, top: 16, color: "#6b6b6b" }}
+                      onClick={() => handleEditClick(memo)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                      {memo.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {memo.content}
+                    </Typography>
+                    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        startIcon={<DeleteIcon />}
+                        onClick={() => handleDelete(memo.memoID)}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </>
                 )}
               </CardContent>
             </Card>
