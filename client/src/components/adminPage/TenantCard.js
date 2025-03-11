@@ -1,199 +1,138 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Card,
-  CardContent,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
-  Box,
-  CircularProgress,
-  Avatar,
-  ListItemAvatar
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PersonIcon from '@mui/icons-material/Person';
+import React, { useEffect, useState } from 'react';
+import { Card, CardContent, Typography, Button, List, ListItem, ListItemText } from '@mui/material';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
 
 const TenantCard = () => {
-  const [tenants, setTenants] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [confirmDialog, setConfirmDialog] = useState({
-    open: false,
-    userId: null,
-    username: ''
-  });
+    const [tenants, setTenants] = useState([]);
+    const [house, setHouse] = useState(null);
 
-  useEffect(() => {
-    fetchTenants();
-  }, []);
+    const navigate = useNavigate();
 
-  const fetchTenants = async () => {
-    try {
-      setLoading(true);
-      // Get the token from localStorage
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('No authentication token found');
-      }
-      
-      // Get current house info
-      const houseResponse = await axios.get(`/api/house/house`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
-      if (houseResponse.data && houseResponse.data.tenants) {
-        // Fetch details for each tenant
-        const tenantPromises = houseResponse.data.tenants.map(userId => 
-          axios.get(`/api/user/user/id/${userId}`, {
-            headers: { Authorization: `Bearer ${token}` }
-          })
-        );
-        
-        const tenantResponses = await Promise.all(tenantPromises);
-        const tenantData = tenantResponses.map(response => response.data);
-        setTenants(tenantData);
-      }
-      
-      setLoading(false);
-    } catch (err) {
-      console.error('Error fetching tenants:', err);
-      setError('Failed to load tenants');
-      setLoading(false);
-    }
-  };
+    useEffect(() => {
+        const fetchHouse = async () => {
+            const token = localStorage.getItem('token');
+            try {
+                const houseResponse = await axios.get(
+                    "http://localhost:5001/api/house/house",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                setHouse(houseResponse.data);
+                console.log('House:', houseResponse.data);
+                const tenantInfo = [];
+                const tenantIDs = houseResponse.data.tenants;
+                console.log('Tenant IDs:', tenantIDs);
+                if (tenantIDs.length === 0) {
+                    console.log('No tenants in house');
+                    return "No tenants in house";   
+                }else if (tenantIDs.length === 1) {
+                    console.log('One tenant in house');
+                    let tempTenant = await axios.get(`http://localhost:5001/api/user/user/id/${tenantIDs[0]}`);
+                    tenantInfo.push(tempTenant.data);
+                    console.log('Tenant Info:', tenantInfo);
+                }else{    
+                    for(let i = 0; i < tenantIDs.length; i++) {
+                        let tempTenant = await axios.get(`http://localhost:5001/api/user/user/id/${tenantIDs[i]}`);
+                        tenantInfo.push(tempTenant.data);
+                    }
+                }
+                console.log('Tenant Info:', tenantInfo);
+                setTenants(tenantInfo);
+            } catch (error) {
+                console.error('Error fetching house or tenants:', error);
+            }
+        };
 
-  const handleRemoveTenant = async (userId) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('No authentication token found');
-      }
-      
-      await axios.put(`/api/house/removeTenant/${userId}`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
-      // Refresh tenants list
-      fetchTenants();
-      setConfirmDialog({ ...confirmDialog, open: false });
-    } catch (err) {
-      console.error('Error removing tenant:', err);
-      setError('Failed to remove tenant');
-    }
-  };
+        fetchHouse();
+    }, []);
 
-  const openConfirmDialog = (userId, username) => {
-    setConfirmDialog({
-      open: true,
-      userId,
-      username
-    });
-  };
+    const handleQuitHouse = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const userResponse = await axios.get(
+                `http://localhost:5001/api/user/user`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-  const closeConfirmDialog = () => {
-    setConfirmDialog({ ...confirmDialog, open: false });
-  };
+            const userID = userResponse.data.user.userID;
+            console.log('User ID:', userID);
 
-  if (loading) {
+            await axios.put(
+                `http://localhost:5001/api/house/removeTenant/${userID}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            await axios.put(
+                `http://localhost:5001/api/user/user/${userResponse.data.user.username}`,
+                { houseID: null },
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            // Remove the token from localStorage
+            localStorage.removeItem('token');
+
+            setHouse(null);
+            setTenants([]);
+            navigate('/login');
+            
+        } catch (error) {
+            console.error('Error quitting house:', error);
+        }
+    };
+
     return (
-      <Card sx={{ minWidth: 275, maxWidth: 600, m: 2 }}>
-        <CardContent sx={{ textAlign: 'center' }}>
-          <CircularProgress />
-          <Typography variant="body2" sx={{ mt: 2 }}>Loading tenants...</Typography>
-        </CardContent>
-      </Card>
+        <Card>
+            <CardContent>
+                <Typography variant="h5">Tenants</Typography>
+                <List>
+                    {tenants.map(tenant => (
+                        <ListItem key={tenant.userID}>
+                            <ListItemText 
+                                primary={`${tenant.firstName} ${tenant.lastName}`} 
+                                secondary={
+                                    <>
+                                        <Typography component="span" variant="body2" color="textPrimary">
+                                            Age: {tenant.age}
+                                        </Typography>
+                                        <br />
+                                        <Typography component="span" variant="body2" color="textPrimary">
+                                            Email: {tenant.email}
+                                        </Typography>
+                                        <br />
+                                        <Typography component="span" variant="body2" color="textPrimary">
+                                            Username: {tenant.username}
+                                        </Typography>
+                                    </>
+                                } 
+                            />
+                        </ListItem>
+                    ))}
+                </List>
+                <Button variant="contained" color="secondary" onClick={handleQuitHouse}>
+                    Quit House
+                </Button>
+            </CardContent>
+        </Card>
     );
-  }
-
-  if (error) {
-    return (
-      <Card sx={{ minWidth: 275, maxWidth: 600, m: 2 }}>
-        <CardContent>
-          <Typography color="error">{error}</Typography>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  return (
-    <Card sx={{ minWidth: 275, maxWidth: 600, m: 2 }}>
-      <CardContent>
-        <Typography variant="h5" component="div" gutterBottom>
-          House Tenants
-        </Typography>
-        <Divider sx={{ mb: 2 }} />
-        {tenants.length === 0 ? (
-          <Typography variant="body1" color="text.secondary">
-            No tenants in this house.
-          </Typography>
-        ) : (
-          <List>
-            {tenants.map((tenant) => (
-              <ListItem key={tenant.userID} divider>
-                <ListItemAvatar>
-                  <Avatar>
-                    <PersonIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={`${tenant.firstName} ${tenant.lastName}`}
-                  secondary={`Username: ${tenant.username} | Email: ${tenant.email}`}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton 
-                    edge="end" 
-                    aria-label="delete"
-                    onClick={() => openConfirmDialog(tenant.userID, tenant.username)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </List>
-        )}
-      </CardContent>
-
-      {/* Confirmation Dialog */}
-      <Dialog
-        open={confirmDialog.open}
-        onClose={closeConfirmDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Confirm Tenant Removal"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to remove {confirmDialog.username} from the house? 
-            This action cannot be undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeConfirmDialog}>Cancel</Button>
-          <Button 
-            onClick={() => handleRemoveTenant(confirmDialog.userId)} 
-            color="error" 
-            autoFocus
-          >
-            Remove
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Card>
-  );
 };
 
 export default TenantCard;
