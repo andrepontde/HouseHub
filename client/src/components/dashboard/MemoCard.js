@@ -50,7 +50,7 @@ const MemoCard = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:5001/api/memo/memo/create",
+        "http://localhost:5001/api/memo/memo",
         newMemo,
         {
           headers: { Authorization: `Bearer ${token}` },
