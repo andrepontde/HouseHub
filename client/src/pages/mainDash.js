@@ -4,6 +4,7 @@ import MemoCard from "components/dashboard/MemoCard";
 import { Container, Box } from "@mui/material";
 import UtilityCard from "components/dashboard/UtilityCard";
 import WelcomeMessage from "components/dashboard/Welcome";
+import TheMainNavBar from "components/layout/MainNav";
 
 const drawerWidth = 240; // Adjust based on your SideNav width
 
@@ -11,6 +12,7 @@ const DashBoard = () => {
   return (
 
     <Box sx={{ display: "flex", flexDirection:"column"}}>
+    <TheMainNavBar />
       <Container sx={{alignItems:"center"}}>
       {/* <WelcomeMessage /> */}
       </Container>

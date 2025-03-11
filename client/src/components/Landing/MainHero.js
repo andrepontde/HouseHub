@@ -1,17 +1,18 @@
-import { Container } from "@mui/material";
-import "assets/HouseHublightLogo.png";
+import { Container,Card,CardContent,Link,Typography } from "@mui/material";
+import {useTheme } from "@mui/material";
+import mainLogo from 'assets/HouseHubFinal.png';
 import  "assets/HouseHubdarkLogo.png";
 
-import getTheme from "theme/theme";
 
 const MainHero = () => {
-    const theme = getTheme();
+    const theme = useTheme();
+
     return (
-        <Container>
+        <Container sx={{display:"flex", justifyContent:"center", mt:5, }}>
 
-            {/* <img src={theme === "light" ? imageLight : imageDark} alt="HouseHub Logo" />
-            <img src={`assets/HouseHub${theme.palette.images.heroLogo}.png`} alt="HouseHub Logo"/> */}
-
+            <Container>
+            <img src={mainLogo} alt="HouseHub Logo"/>
+            </Container>
         </Container>
     );
 };

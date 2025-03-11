@@ -1,5 +1,5 @@
 import React, {useState, useMemo}  from 'react';
-import { ThemeProvider, CssBaseline } from '@mui/material'; // ✅ Use MUI's ThemeProvider
+import { ThemeProvider, CssBaseline } from '@mui/material';
 import getTheme from './theme/theme';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Landing from 'pages/landingPage';
