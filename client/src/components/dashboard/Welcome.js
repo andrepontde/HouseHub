@@ -1,6 +1,8 @@
-import { Typography } from "@mui/material";
+import { Typography,Avatar,Container } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import defaultLogo from 'assets/blank-profile-picture-973460_640.png'
+
 
 const WelcomeMessage = () => {
   const [username, setUsername] = useState('');
@@ -16,7 +18,7 @@ const WelcomeMessage = () => {
           },
         });
 
-        setUsername(response.data.username);
+        setUsername(response.data);
         console.log(response.data)
       } catch (error) {
         console.error("Error fetching User:", error);
@@ -28,7 +30,10 @@ const WelcomeMessage = () => {
 
   return (
     <>
-      <Typography variant="h3">Hello {username}</Typography>
+      <Container sx={{display:"flex", flexDirection:"row", alignItems:"center",justifyContent:"center", mt:2}}>
+      <Typography variant="h3" sx={{paddingRight:2}}>Hello {username}</Typography>
+      <Avatar alt="Remy Sharp" src={defaultLogo} sx={{height:80,width:80}} />
+      </Container>
     </>
   );
 };

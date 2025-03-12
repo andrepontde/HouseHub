@@ -8,9 +8,9 @@ const MainHero = () => {
     const theme = useTheme();
 
     return (
-        <Container sx={{display:"flex", justifyContent:"center", mt:5, }}>
+        <Container sx={{display:"flex", justifyContent:"center", mt:5, p:0}}>
 
-            <Container>
+            <Container sx={{p:0}} disableGutters>
             <img src={mainLogo} alt="HouseHub Logo"/>
             </Container>
         </Container>

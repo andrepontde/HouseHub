@@ -77,162 +77,218 @@ const MemoCard = () => {
 		}
 	};
 
-	const handleEditClick = (memo) => {
-		setEditingMemo({ memoID: memo.memoID, title: memo.title, content: memo.content });
-	};
+  const handleEditClick = (memo) => {
+    setEditingMemo({
+      memoID: memo.memoID,
+      title: memo.title,
+      content: memo.content,
+    });
+  };
+
 
 	const handleEditChange = (event) => {
 		setEditingMemo({ ...editingMemo, [event.target.name]: event.target.value });
 	};
 
-	const handleSave = async (id) => {
-		try {
-			const token = localStorage.getItem("token");
-			await axios.put(`http://localhost:5001/api/memo/memo/${id}`, editingMemo, {
-				headers: { Authorization: `Bearer ${token}` },
-			});
-			setMemos(memos.map((m) => (m.memoID === id ? editingMemo : m)));
-			setEditingMemo(null);
-		} catch (error) {
-			console.error("Error updating memo:", error);
-		}
-	};
 
-	return (
-		<Container sx={{ maxWidth: "600px", margin: "auto", paddingTop: 4 }}>
-			<Card sx={{ boxShadow: 3, display: "flex", flexDirection: "column", padding: 2 }}>
-				<Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-					<CardHeader title="Memos" sx={{ fontSize: "1.5rem", fontWeight: "bold" }} />
-					<IconButton color="secondary" onClick={() => setShowCreateForm(true)}>
-						<AddIcon />
-					</IconButton>
-				</Box>
+  const handleSave = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:5001/api/memo/memo/${id}`,
+        editingMemo,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setMemos(memos.map((m) => (m.memoID === id ? editingMemo : m)));
+      setEditingMemo(null);
+    } catch (error) {
+      console.error("Error updating memo:", error);
+    }
+  };
 
-				{showCreateForm && (
-					<Card>
-						<CardContent>
-							<TextField
-								fullWidth
-								label="Title"
-								value={newMemo.title}
-								onChange={(e) => setNewMemo({ ...newMemo, title: e.target.value })}
-								sx={{ marginBottom: 1, backgroundColor: "#fff", borderRadius: "5px" }}
-							/>
-							<TextField
-								fullWidth
-								label="Content"
-								multiline
-								rows={3}
-								value={newMemo.content}
-								onChange={(e) => setNewMemo({ ...newMemo, content: e.target.value })}
-								sx={{ backgroundColor: "#fff", borderRadius: "5px" }}
-							/>
-							<Box sx={{ display: "flex", justifyContent: "flex-end", marginTop: 2 }}>
-								<Button
-									variant="contained"
-									color="primary"
-									startIcon={<SaveIcon />}
-									sx={{ marginRight: 1 }}
-									onClick={handleCreateMemo}
-								>
-									Create
-								</Button>
-								<Button
-									variant="contained"
-									color="error"
-									startIcon={<CancelIcon />}
-									onClick={() => setShowCreateForm(false)}
-								>
-									Cancel
-								</Button>
-							</Box>
-						</CardContent>
-					</Card>
-				)}
+  return (
+    <Container sx={{ maxWidth: "600px", margin: "auto", paddingTop: 4 }}>
+      <Card
+        sx={{
+          boxShadow: 3,
+          display: "flex",
+          flexDirection: "column",
+          padding: 2,
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <CardHeader
+            title="Memos"
+            sx={{ fontSize: "1.5rem", fontWeight: "bold" }}
+          />
+          <IconButton color="secondary" onClick={() => setShowCreateForm(true)}>
+            <AddIcon />
+          </IconButton>
+        </Box>
 
-				{memos.length > 0 ? (
-					memos.map((memo) => (
-						<Card key={memo.memoID} sx={{ mb: 2 }}>
-							<CardContent sx={{ position: "relative" }}>
-								{editingMemo && editingMemo.memoID === memo.memoID ? (
-									<>
-										<TextField
-											fullWidth
-											name="title"
-											label="Title"
-											variant="outlined"
-											value={editingMemo.title}
-											onChange={handleEditChange}
-											sx={{ marginBottom: 1 }}
-										/>
-										<TextField
-											fullWidth
-											name="content"
-											label="Content"
-											variant="outlined"
-											multiline
-											rows={3}
-											value={editingMemo.content}
-											onChange={handleEditChange}
-										/>
-										<Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-											<Button
-												variant="contained"
-												color="primary"
-												startIcon={<SaveIcon />}
-												onClick={() => handleSave(memo.memoID)}
-												sx={{ mr: 1 }}
-											>
-												Save
-											</Button>
-											<Button
-												variant="contained"
-												color="error"
-												startIcon={<CancelIcon />}
-												onClick={() => setEditingMemo(null)}
-											>
-												Cancel
-											</Button>
-										</Box>
-									</>
-								) : (
-									<>
-										<IconButton
-											aria-label="edit"
-											sx={{ position: "absolute", right: 16, top: 16, color: "#6b6b6b" }}
-											onClick={() => handleEditClick(memo)}
-										>
-											<EditIcon />
-										</IconButton>
-										<Typography variant="h6" sx={{ fontWeight: "bold" }}>
-											{memo.title}
-										</Typography>
-										<Typography variant="body2" color="text.secondary">
-											{memo.content}
-										</Typography>
-										<Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-											<Button
-												variant="contained"
-												color="error"
-												startIcon={<DeleteIcon />}
-												onClick={() => handleDelete(memo.memoID)}
-											>
-												Delete
-											</Button>
-										</Box>
-									</>
-								)}
-							</CardContent>
-						</Card>
-					))
-				) : (
-					<Typography textAlign="center" fontStyle="italic">
-						No memos available. Start adding notes!
-					</Typography>
-				)}
-			</Card>
-		</Container>
-	);
-};
+        {showCreateForm && (
+          <Card>
+            <CardContent>
+              <TextField
+                fullWidth
+                label="Title"
+                value={newMemo.title}
+                onChange={(e) =>
+                  setNewMemo({ ...newMemo, title: e.target.value })
+                }
+                sx={{
+                  marginBottom: 1,
+                  backgroundColor: "#fff",
+                  borderRadius: "5px",
+                }}
+              />
+              <TextField
+                fullWidth
+                label="Content"
+                multiline
+                rows={3}
+                value={newMemo.content}
+                onChange={(e) =>
+                  setNewMemo({ ...newMemo, content: e.target.value })
+                }
+                sx={{ backgroundColor: "#fff", borderRadius: "5px" }}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  marginTop: 2,
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<SaveIcon />}
+                  sx={{ marginRight: 1 }}
+                  onClick={handleCreateMemo}
+                >
+                  Create
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  startIcon={<CancelIcon />}
+                  onClick={() => setShowCreateForm(false)}
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        )}
+
+        {memos.length > 0 ? (
+          memos.map((memo) => (
+            <Card key={memo.memoID} sx={{ mb: 2 }}>
+              <CardContent sx={{ position: "relative" }}>
+                {editingMemo && editingMemo.memoID === memo.memoID ? (
+                  <>
+                    <TextField
+                      fullWidth
+                      name="title"
+                      label="Title"
+                      variant="outlined"
+                      value={editingMemo.title}
+                      onChange={handleEditChange}
+                      sx={{ marginBottom: 1 }}
+                    />
+                    <TextField
+                      fullWidth
+                      name="content"
+                      label="Content"
+                      variant="outlined"
+                      multiline
+                      rows={3}
+                      value={editingMemo.content}
+                      onChange={handleEditChange}
+                    />
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        mt: 2,
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<SaveIcon />}
+                        onClick={() => handleSave(memo.memoID)}
+                        sx={{ mr: 1 }}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        startIcon={<CancelIcon />}
+                        onClick={() => setEditingMemo(null)}
+                      >
+                        Cancel
+                      </Button>
+                    </Box>
+                  </>
+                ) : (
+                  <>
+                    <IconButton
+                      aria-label="edit"
+                      sx={{
+                        position: "absolute",
+                        right: 16,
+                        top: 16,
+                        color: "#6b6b6b",
+                      }}
+                      onClick={() => handleEditClick(memo)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                      {memo.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {memo.content}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        mt: 2,
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="error"
+                        startIcon={<DeleteIcon />}
+                        onClick={() => handleDelete(memo.memoID)}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Typography textAlign="center" fontStyle="italic">
+            No memos available. Start adding notes!
+          </Typography>
+        )}
+      </Card>
+    </Container>
+  );
 
 export default MemoCard;
