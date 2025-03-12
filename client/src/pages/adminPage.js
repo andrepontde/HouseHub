@@ -52,9 +52,11 @@ const AdminPage = () => {
 	//Render the TenantCard or LandlordCard based on the role of the user
 
 	return (
+		<Container maxWidth={false} disableGutters>
+	<TheMainNavBar/>
 
 		<Container>
-		<TheMainNavBar/>
+
 			<Box sx={{ mt: 4 }}>
 				{/* <Button variant="contained" onClick={() => navigate('/dashboard')}>Back to Dashboard</Button> */}
 				{role === 'tenant' ? (
@@ -65,6 +67,7 @@ const AdminPage = () => {
 					<Box>No role assigned or invalid role.</Box>
 				)}
 			</Box>
+		</Container>
 		</Container>
 	);
 };

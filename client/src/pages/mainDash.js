@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MemoCard from "components/dashboard/MemoCard";
 import { Container, Box, Stack,Button } from "@mui/material";
@@ -9,10 +10,18 @@ import TheMainNavBar from "components/layout/MainNav";
 
 const DashBoard = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    if (!token) {
+      navigate('/');
+    }
+  }, [token, navigate]);
+
 
   const navigateToAdmin = () => {
     navigate('/admin');
   };
+
 
   return (
 

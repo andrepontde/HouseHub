@@ -34,7 +34,7 @@ export function TheMainNavBar() {
 
                 {token ? (
                     <Box>
-                    <Button onClick={navigateToDash()} sx={{ color: '#FAFAFA',fontWeight: "bold" }}>
+                    <Button onClick={navigateToDash} sx={{ color: '#FAFAFA',fontWeight: "bold" }}>
                         DashBoard
                     </Button>
                     <Button onClick={handleLogout} sx={{ color: '#FAFAFA',fontWeight: "bold" }}>

@@ -143,7 +143,7 @@ const MemoCard = () => {
                 }
                 sx={{
                   marginBottom: 1,
-                  backgroundColor: "#fff",
+
                   borderRadius: "5px",
                 }}
               />
@@ -156,7 +156,7 @@ const MemoCard = () => {
                 onChange={(e) =>
                   setNewMemo({ ...newMemo, content: e.target.value })
                 }
-                sx={{ backgroundColor: "#fff", borderRadius: "5px" }}
+                sx={{  borderRadius: "5px" }}
               />
               <Box
                 sx={{
