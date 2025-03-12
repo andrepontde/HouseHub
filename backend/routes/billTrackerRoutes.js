@@ -74,7 +74,7 @@ router.delete("/delete/:billID", authorise, async (req, res) => {
     const houseID = req.user.houseID;
     const userID = req.user.userID;
     const bill = await Bill.findOneAndDelete({
-      billID: req.params.billID,
+      _id: req.params.billID,
       houseID,
       userID,
     });
@@ -93,7 +93,7 @@ router.post("/pay/:billID", authorise, async (req, res) => {
   try {
     const { amountPaid } = req.body;
     const userID = req.user.userID;
-    const bill = await Bill.findOne({ billID: req.params.billID });
+    const bill = await Bill.findOne({ _id: req.params.billID });
 
     if (!bill) {
       return res.status(404).json({ message: "Bill not found" });
