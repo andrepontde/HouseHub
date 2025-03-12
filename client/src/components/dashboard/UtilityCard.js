@@ -11,6 +11,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  CardHeader
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
@@ -104,7 +105,6 @@ const UtilityCard = () => {
       <Card
         sx={{
           boxShadow: 3,
-          backgroundColor: "#f9f9f9",
           borderRadius: "12px",
           padding: 2,
         }}
@@ -116,12 +116,14 @@ const UtilityCard = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5"> Bill Management</Typography>
+           <CardHeader
+            title="Bill Management"
+            sx={{ fontSize: "1.5rem", fontWeight: "bold" }}
+          />
           <IconButton color="primary" onClick={() => setShowCreateForm(true)}>
             <AddIcon />
           </IconButton>
         </Box>
-
         {showCreateForm && (
           <Box sx={{ padding: 2 }}>
             <TextField
@@ -179,16 +181,12 @@ const UtilityCard = () => {
             </Box>
           </Box>
         )}
-
         {bills.length > 0 ? (
           bills.map((bill) => (
             <Card
               key={bill._id}
               sx={{
-                marginTop: 2,
-                padding: 2,
-                borderRadius: "10px",
-                boxShadow: 1,
+              mb:2
               }}
             >
               <CardContent>

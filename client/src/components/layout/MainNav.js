@@ -6,10 +6,9 @@ import { Link } from 'react-router-dom'; // If using React Router
 export function TheMainNavBar() {
     const navigate = useNavigate();
 
-    const navigateToAdmin = () => {
-      navigate('/admin');
-    };
-
+     const navigateToDash = () => {
+       navigate('/dashboard');
+     };
 
     // Retrieve token from localStorage
     const token = localStorage.getItem("token");
@@ -35,15 +34,9 @@ export function TheMainNavBar() {
 
                 {token ? (
                     <Box>
-                        <Button
-                     variant="contained"
-                     color="primary"
-                     onClick={navigateToAdmin}
-                     sx={{ mt: 2}}
-
-                   >
-                     Go to Admin page
-                   </Button>
+                    <Button onClick={navigateToDash()} sx={{ color: '#FAFAFA',fontWeight: "bold" }}>
+                        DashBoard
+                    </Button>
                     <Button onClick={handleLogout} sx={{ color: '#FAFAFA',fontWeight: "bold" }}>
                         Logout
                     </Button>

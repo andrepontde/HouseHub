@@ -46,6 +46,17 @@ router.get("/users", authorise, async (req, res) => {
     res.status(500).json({ error: error.message }); //response for an error
   }
 });
+router.get("/user/welcome", authorise, async (req,res) => {
+    try {
+      const user = await User.findOne({ userID: req.user.userID});
+      res.json({user: user.username});
+    }catch(error){
+      res.status(500).json({ error: error.message }); //response for an error
+    }
+
+    }
+
+)
 
 //route to retieve a specific user
 router.get("/user", authorise, async (req, res) => {

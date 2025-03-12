@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import axios from 'axios';
 import { Container, Box, Button } from "@mui/material"; // Import Button
+import TheMainNavBar from "components/layout/MainNav";
 
 // Import the card components to handle a tenant or landlord
 import TenantCard from "../components/adminPage/TenantCard";
@@ -51,9 +52,11 @@ const AdminPage = () => {
 	//Render the TenantCard or LandlordCard based on the role of the user
 
 	return (
-		<Container sx={{ ml: `${drawerWidth}px`, width: `calc(100% - ${drawerWidth}px)` }}>
+
+		<Container>
+		<TheMainNavBar/>
 			<Box sx={{ mt: 4 }}>
-				<Button variant="contained" onClick={() => navigate('/dashboard')}>Back to Dashboard</Button>
+				{/* <Button variant="contained" onClick={() => navigate('/dashboard')}>Back to Dashboard</Button> */}
 				{role === 'tenant' ? (
 					<TenantCard username={username} />
 				) : role === 'landlord' ? (

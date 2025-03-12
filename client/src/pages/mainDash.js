@@ -1,27 +1,39 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
 import MemoCard from "components/dashboard/MemoCard";
-import { Container, Box, Button } from "@mui/material";
+import { Container, Box, Stack,Button } from "@mui/material";
 import UtilityCard from "components/dashboard/UtilityCard";
 import WelcomeMessage from "components/dashboard/Welcome";
 import TheMainNavBar from "components/layout/MainNav";
 
 
 const DashBoard = () => {
+  const navigate = useNavigate();
+
+  const navigateToAdmin = () => {
+    navigate('/admin');
+  };
 
   return (
 
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box sx={{ display: "flex", flexDirection: "column" ,justifyContent:"flex-start"}}>
       <TheMainNavBar/>
 
       <Container sx={{ alignItems: "center", display:"flex" , width:'100vw', justifyContent:"space-between"}}>
+
         {/* <WelcomeMessage /> */}
         <WelcomeMessage/>
+        <Button
+                     variant="contained"
+                     color="primary"
+                     onClick={navigateToAdmin}
+                     sx={{ mt: 2}}
 
-
+                   >
+                     Settings
+                   </Button>
       </Container>
-      <Box
+      {/* <Box
         component="main"
         sx={{
           flexGrow: 1,
@@ -29,12 +41,15 @@ const DashBoard = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          minHeight: "100vh"
+          minHeight: "100vh",
+          justifyContent:"flex-start"
         }}
-      >
+      > */}
+      <Stack direction="row" spacing={2}>
         <MemoCard />
         <UtilityCard />
-      </Box>
+        </Stack >
+      {/* </Box> */}
     </Box>
   );
 };

@@ -89,8 +89,6 @@ const MemoCard = () => {
 	const handleEditChange = (event) => {
 		setEditingMemo({ ...editingMemo, [event.target.name]: event.target.value });
 	};
-
-
   const handleSave = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -107,9 +105,8 @@ const MemoCard = () => {
       console.error("Error updating memo:", error);
     }
   };
-
   return (
-    <Container sx={{ maxWidth: "600px", margin: "auto", paddingTop: 4 }}>
+    <Container sx={{ maxWidth: "600px", margin: "auto", paddingTop: 4 }} >
       <Card
         sx={{
           boxShadow: 3,

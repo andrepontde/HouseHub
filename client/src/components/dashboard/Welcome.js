@@ -12,14 +12,14 @@ const WelcomeMessage = () => {
       try {
         const token = localStorage.getItem("token");
         console.log(token)
-        const response = await axios.get("http://localhost:5001/api/user/user", {
+        const response = await axios.get("http://localhost:5001/api/user/user/welcome", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-
-        console.log(response.data)
+        setUsername(response.data.user);
+        console.log(response.data.user)
       } catch (error) {
         console.error("Error fetching User:", error);
       }

@@ -62,4 +62,31 @@ const billTrackerSchema = new mongoose.Schema({
 });
 
 
+
+billTrackerSchema.methods.toJSON = function () {
+  const bill = this.toObject();
+
+  bill.createdDate = new Date(bill.createdDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+
+  bill.dueDate = new Date(bill.dueDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+
+  bill.paid = bill.paid.map(payment => ({
+    ...payment,
+    paidDate: new Date(payment.paidDate).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    })
+  }));
+
+  return bill;
+};
 module.exports = mongoose.model("Bill", billTrackerSchema);

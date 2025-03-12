@@ -9,7 +9,7 @@ import AdminPage from 'pages/adminPage';
 
 function App(){
 
-  const [mode, setMode] = useState('light');
+  const [mode, setMode] = useState('dark');
   const theme = useMemo(() => getTheme(mode), [mode])
 
   // console.log(theme.palette); Testing global pallette
