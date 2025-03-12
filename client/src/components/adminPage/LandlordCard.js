@@ -3,12 +3,14 @@ import { Card, CardContent, Typography, Button, List, ListItem, ListItemText } f
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-const TenantCard = () => {
-    const [tenants, setTenants] = useState([]);
-    const [house, setHouse] = useState(null);
+// LandlordCard component displays the house details and tenants for the landlord
+const LandlordCard = () => {
+    const [tenants, setTenants] = useState([]); // State for tenants
+    const [house, setHouse] = useState(null); // State for house details
 
     const navigate = useNavigate();
 
+    // Fetch house and tenant details on component mount
     useEffect(() => {
         const fetchHouse = async () => {
             const token = localStorage.getItem('token');
@@ -29,12 +31,12 @@ const TenantCard = () => {
                 if (tenantIDs.length === 0) {
                     console.log('No tenants in house');
                     return "No tenants in house";   
-                }else if (tenantIDs.length === 1) {
+                } else if (tenantIDs.length === 1) {
                     console.log('One tenant in house');
                     let tempTenant = await axios.get(`http://localhost:5001/api/user/user/id/${tenantIDs[0]}`);
                     tenantInfo.push(tempTenant.data);
                     console.log('Tenant Info:', tenantInfo);
-                }else{    
+                } else {    
                     for(let i = 0; i < tenantIDs.length; i++) {
                         let tempTenant = await axios.get(`http://localhost:5001/api/user/user/id/${tenantIDs[i]}`);
                         tenantInfo.push(tempTenant.data);
@@ -50,6 +52,7 @@ const TenantCard = () => {
         fetchHouse();
     }, []);
 
+    // Handle removing a tenant from the house
     const handleRemoveTenant = async (tenantID) => {
         try {
             const token = localStorage.getItem('token');
@@ -68,18 +71,19 @@ const TenantCard = () => {
         }
     };
 
+    // Handle removing the house
     const handleRemoveHouse = async () => {
         try {
-          const tk = localStorage.getItem('token');
+            const tk = localStorage.getItem('token');
 
-          const userResponse = await axios.get(
-            `http://localhost:5001/api/user/user`,
-            {
-                headers: {
-                    Authorization: `Bearer ${tk}`,
-                },
-            }
-        );
+            const userResponse = await axios.get(
+                `http://localhost:5001/api/user/user`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${tk}`,
+                    },
+                }
+            );
 
             const token = localStorage.getItem('token');
             await axios.delete(
@@ -91,15 +95,15 @@ const TenantCard = () => {
                 }
             );
             await axios.put(
-              `http://localhost:5001/api/user/user/${userResponse.data.user.username}`,
-              { houseID: null },
-              {},
-              {
-                  headers: {
-                      Authorization: `Bearer ${tk}`,
-                  },
-              }
-          );
+                `http://localhost:5001/api/user/user/${userResponse.data.user.username}`,
+                { houseID: null },
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${tk}`,
+                    },
+                }
+            );
             localStorage.removeItem('token');
             setHouse(null);
             setTenants([]);
@@ -109,6 +113,7 @@ const TenantCard = () => {
         }
     };
 
+    // Render the house details and tenant list
     return (
         <Card>
             <CardContent>
@@ -154,4 +159,4 @@ const TenantCard = () => {
     );
 };
 
-export default TenantCard;
+export default LandlordCard;

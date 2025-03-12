@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
-  Card,
-  CardContent,
-  Typography,
-  Container,
-  CardHeader,
-  IconButton,
-  Button,
-  TextField,
-  Box,
+	Card,
+	CardContent,
+	Typography,
+	Container,
+	CardHeader,
+	IconButton,
+	Button,
+	TextField,
+	Box,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -18,64 +18,64 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 
 const MemoCard = () => {
-  const [memos, setMemos] = useState([]);
-  const [newMemo, setNewMemo] = useState({ title: "", content: "" });
-  const [showCreateForm, setShowCreateForm] = useState(false);
-  const [editingMemo, setEditingMemo] = useState(null);
+	const [memos, setMemos] = useState([]);
+	const [newMemo, setNewMemo] = useState({ title: "", content: "" });
+	const [showCreateForm, setShowCreateForm] = useState(false);
+	const [editingMemo, setEditingMemo] = useState(null);
 
-  useEffect(() => {
-    const fetchMemos = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "http://localhost:5001/api/memo/house/memos",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setMemos(response.data);
-      } catch (error) {
-        console.error("Error fetching memos:", error);
-      }
-    };
-    fetchMemos();
-  }, []);
+	useEffect(() => {
+		const fetchMemos = async () => {
+			try {
+				const token = localStorage.getItem("token");
+				const response = await axios.get(
+					"http://localhost:5001/api/memo/house/memos",
+					{
+						headers: { Authorization: `Bearer ${token}` },
+					}
+				);
+				setMemos(response.data);
+			} catch (error) {
+				console.error("Error fetching memos:", error);
+			}
+		};
+		fetchMemos();
+	}, []);
 
-  const handleCreateMemo = async () => {
-    if (!newMemo.title.trim() || !newMemo.content.trim()) {
-      alert("Title and content cannot be empty!");
-      return;
-    }
+	const handleCreateMemo = async () => {
+		if (!newMemo.title.trim() || !newMemo.content.trim()) {
+			alert("Title and content cannot be empty!");
+			return;
+		}
 
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:5001/api/memo/memo/create",
-        newMemo,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+		try {
+			const token = localStorage.getItem("token");
+			const response = await axios.post(
+				"http://localhost:5001/api/memo/memo",
+				newMemo,
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			);
 
-      setMemos([...memos, response.data]);
-      setNewMemo({ title: "", content: "" });
-      setShowCreateForm(false);
-    } catch (error) {
-      console.error("Error creating memo:", error);
-    }
-  };
+			setMemos([...memos, response.data]);
+			setNewMemo({ title: "", content: "" });
+			setShowCreateForm(false);
+		} catch (error) {
+			console.error("Error creating memo:", error);
+		}
+	};
 
-  const handleDelete = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5001/api/memo/memo/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setMemos(memos.filter((m) => m.memoID !== id));
-    } catch (error) {
-      console.error("Error deleting memo:", error);
-    }
-  };
+	const handleDelete = async (id) => {
+		try {
+			const token = localStorage.getItem("token");
+			await axios.delete(`http://localhost:5001/api/memo/memo/${id}`, {
+				headers: { Authorization: `Bearer ${token}` },
+			});
+			setMemos(memos.filter((m) => m.memoID !== id));
+		} catch (error) {
+			console.error("Error deleting memo:", error);
+		}
+	};
 
   const handleEditClick = (memo) => {
     setEditingMemo({
@@ -85,9 +85,11 @@ const MemoCard = () => {
     });
   };
 
-  const handleEditChange = (event) => {
-    setEditingMemo({ ...editingMemo, [event.target.name]: event.target.value });
-  };
+
+	const handleEditChange = (event) => {
+		setEditingMemo({ ...editingMemo, [event.target.name]: event.target.value });
+	};
+
 
   const handleSave = async (id) => {
     try {
@@ -288,6 +290,5 @@ const MemoCard = () => {
       </Card>
     </Container>
   );
-};
 
 export default MemoCard;
