@@ -7,19 +7,22 @@ import {
 	CardHeader,
 	IconButton,
 	Button,
+	TextField,
 	Box,
+	Checkbox,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import axios from "axios";
-import TextField from "@mui/material/TextField";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
+import EditIcon from "@mui/icons-material/Edit";
+import axios from "axios";
 
 const ToDoCard = () => {
-	const [todos, setTodos] = useState([]);
-	const [newTodo, setNewTodo] = useState({ content: "", dueDate: "" });
+	const [toDos, setToDos] = useState([]);
+	const [newToDo, setNewToDo] = useState({ content: "", dueDate: "" });
 	const [showCreateForm, setShowCreateForm] = useState(false);
+	const [editingToDo, setEditingToDo] = useState(null);
 
 	useEffect(() => {
 		const fetchToDos = async () => {
@@ -31,7 +34,7 @@ const ToDoCard = () => {
 						headers: { Authorization: `Bearer ${token}` },
 					}
 				);
-				setTodos(response.data);
+				setToDos(response.data);
 			} catch (error) {
 				console.error("Error fetching to-dos:", error);
 			}
@@ -39,8 +42,8 @@ const ToDoCard = () => {
 		fetchToDos();
 	}, []);
 
-	const handleCreateTodo = async () => {
-		if (!newTodo.content.trim() || !newTodo.dueDate.trim()) {
+	const handleCreateToDo = async () => {
+		if (!newToDo.content.trim() || !newToDo.dueDate.trim()) {
 			alert("Content and due date cannot be empty!");
 			return;
 		}
@@ -49,14 +52,14 @@ const ToDoCard = () => {
 			const token = localStorage.getItem("token");
 			const response = await axios.post(
 				"http://localhost:5001/api/todolist/todolists",
-				newTodo,
+				newToDo,
 				{
 					headers: { Authorization: `Bearer ${token}` },
 				}
 			);
 
-			setTodos([...todos, response.data]);
-			setNewTodo({ content: "", dueDate: "" });
+			setToDos([...toDos, response.data]);
+			setNewToDo({ content: "", dueDate: "" });
 			setShowCreateForm(false);
 		} catch (error) {
 			console.error("Error creating to-do:", error);
@@ -66,12 +69,70 @@ const ToDoCard = () => {
 	const handleDelete = async (taskID) => {
 		try {
 			const token = localStorage.getItem("token");
-			await axios.delete(`http://localhost:5001/api/todolist/${taskID}`, {
-				headers: { Authorization: `Bearer ${token}` },
-			});
-			setTodos(todos.filter((todo) => todo.taskID !== taskID));
+			await axios.delete(
+				`http://localhost:5001/api/todolist/todolist/${taskID}`,
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			);
+			setToDos(toDos.filter((todo) => todo.taskID !== taskID));
 		} catch (error) {
 			console.error("Error deleting to-do:", error);
+		}
+	};
+
+	const handleToggleStatus = async (taskID, currentStatus) => {
+		try {
+			const token = localStorage.getItem("token");
+			await axios.put(
+				`http://localhost:5001/api/todolist/todolist/${taskID}`,
+				{ taskStatus: !currentStatus },
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			);
+			setToDos(
+				toDos.map((todo) =>
+					todo.taskID === taskID
+						? { ...todo, taskStatus: !currentStatus }
+						: todo
+				)
+			);
+		} catch (error) {
+			console.error("Error updating to-do status:", error);
+		}
+	};
+
+	const handleEditClick = (todo) => {
+		setEditingToDo({
+			taskID: todo.taskID,
+			content: todo.content,
+			dueDate: todo.dueDate,
+		});
+	};
+
+	const handleEditChange = (event) => {
+		setEditingToDo({ ...editingToDo, [event.target.name]: event.target.value });
+	};
+
+	const handleSaveEdit = async (taskID) => {
+		try {
+			const token = localStorage.getItem("token");
+			await axios.put(
+				`http://localhost:5001/api/todolist/todolist/${taskID}`,
+				editingToDo,
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			);
+			setToDos(
+				toDos.map((todo) =>
+					todo.taskID === taskID ? { ...todo, ...editingToDo } : todo
+				)
+			);
+			setEditingToDo(null);
+		} catch (error) {
+			console.error("Error updating to-do:", error);
 		}
 	};
 
@@ -96,20 +157,26 @@ const ToDoCard = () => {
 						title="To-Do List"
 						sx={{ fontSize: "1.5rem", fontWeight: "bold" }}
 					/>
-					<IconButton color="secondary" onClick={() => setShowCreateForm(true)}>
+					<IconButton
+						color="secondary"
+						onClick={() => setShowCreateForm(true)}
+					>
 						<AddIcon />
 					</IconButton>
 				</Box>
 
 				{showCreateForm && (
-					<Card sx={{ mb: 2 }}>
+					<Card>
 						<CardContent>
 							<TextField
 								fullWidth
 								label="Content"
-								value={newTodo.content}
+								value={newToDo.content}
 								onChange={(e) =>
-									setNewTodo({ ...newTodo, content: e.target.value })
+									setNewToDo({
+										...newToDo,
+										content: e.target.value,
+									})
 								}
 								sx={{ marginBottom: 1 }}
 							/>
@@ -118,9 +185,12 @@ const ToDoCard = () => {
 								label="Due Date"
 								type="date"
 								InputLabelProps={{ shrink: true }}
-								value={newTodo.dueDate}
+								value={newToDo.dueDate}
 								onChange={(e) =>
-									setNewTodo({ ...newTodo, dueDate: e.target.value })
+									setNewToDo({
+										...newToDo,
+										dueDate: e.target.value,
+									})
 								}
 							/>
 							<Box
@@ -135,7 +205,7 @@ const ToDoCard = () => {
 									color="primary"
 									startIcon={<SaveIcon />}
 									sx={{ marginRight: 1 }}
-									onClick={handleCreateTodo}
+									onClick={handleCreateToDo}
 								>
 									Create
 								</Button>
@@ -152,31 +222,100 @@ const ToDoCard = () => {
 					</Card>
 				)}
 
-				{todos.length > 0 ? (
-					todos.map((todo) => (
+				{toDos.length > 0 ? (
+					toDos.map((todo) => (
 						<Card key={todo.taskID} sx={{ mb: 2 }}>
-							<CardContent>
-								<Typography variant="h6" sx={{ fontWeight: "bold" }}>
-									{todo.content}
-								</Typography>
-								<Typography variant="body2" color="text.secondary">
-									Due Date: {new Date(todo.dueDate).toLocaleDateString()}
-								</Typography>
-								<Box
-									sx={{
-										display: "flex",
-										justifyContent: "flex-end",
-										mt: 2,
-									}}
-								>
-									<Button
-										variant="contained"
+							<CardContent
+								sx={{
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "space-between",
+								}}
+							>
+								{editingToDo && editingToDo.taskID === todo.taskID ? (
+									<Box>
+										<TextField
+											fullWidth
+											name="content"
+											label="Content"
+											value={editingToDo.content}
+											onChange={handleEditChange}
+											sx={{ marginBottom: 1 }}
+										/>
+										<TextField
+											fullWidth
+											name="dueDate"
+											label="Due Date"
+											type="date"
+											InputLabelProps={{ shrink: true }}
+											value={editingToDo.dueDate}
+											onChange={handleEditChange}
+										/>
+										<Box
+											sx={{
+												display: "flex",
+												justifyContent: "flex-end",
+												marginTop: 2,
+											}}
+										>
+											<Button
+												variant="contained"
+												color="primary"
+												startIcon={<SaveIcon />}
+												onClick={() => handleSaveEdit(todo.taskID)}
+												sx={{ marginRight: 1 }}
+											>
+												Save
+											</Button>
+											<Button
+												variant="contained"
+												color="error"
+												startIcon={<CancelIcon />}
+												onClick={() => setEditingToDo(null)}
+											>
+												Cancel
+											</Button>
+										</Box>
+									</Box>
+								) : (
+									<Box>
+										<Checkbox
+											checked={todo.taskStatus}
+											onChange={() =>
+												handleToggleStatus(todo.taskID, todo.taskStatus)
+											}
+										/>
+										<Typography
+											variant="body1"
+											sx={{
+												textDecoration: todo.taskStatus
+													? "line-through"
+													: "none",
+											}}
+										>
+											{todo.content}
+										</Typography>
+										<Typography
+											variant="caption"
+											color="text.secondary"
+										>
+											Due: {todo.dueDate}
+										</Typography>
+									</Box>
+								)}
+								<Box>
+									<IconButton
+										color="primary"
+										onClick={() => handleEditClick(todo)}
+									>
+										<EditIcon />
+									</IconButton>
+									<IconButton
 										color="error"
-										startIcon={<DeleteIcon />}
 										onClick={() => handleDelete(todo.taskID)}
 									>
-										Delete
-									</Button>
+										<DeleteIcon />
+									</IconButton>
 								</Box>
 							</CardContent>
 						</Card>

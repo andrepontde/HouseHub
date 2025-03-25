@@ -1,95 +1,93 @@
 const express = require("express");
 const router = express.Router();
-const todolist = require("../models/todolistModel.js");
+const ToDoList = require("../models/todolistModel.js");
 const authorise = require("../middleware/authorisationMiddleware.js");
 
 // Filter todolist items by dueDate
 router.get("/todolists/filter", async (req, res) => {
-    try {
-      const todolists = await todolist.find().sort({ dueDate: -1 }); //this sorts it by the most recent time to latest. this is determind by the -1 and the contents in MongoDBs
-
-      res.json(todolists);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  });
-
-//Creating new todolist
-router.post("/todolists", authorise, async (req, res) => {
   try {
-    const {content, dueDate} = req.body;
+    const todolists = await ToDoList.find().sort({ dueDate: -1 }); //this sorts it by the most recent time to latest. this is determind by the -1 and the contents in MongoDBs
 
-    taskStatus = false;
-
-    const newtodolist = new todolist({
-      houseID: req.user.houseID,
-      userID: req.user.userID,
-      content, dueDate, taskStatus, 
-    });
-
-    await newtodolist.save();
-    res.status(201).json(newtodolist);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-//retrieve all todolist items
-router.get("/house", authorise, async (req, res) => {
-  try {
-    const todolists = await todolist .find({ houseID: req.user.houseID });
     res.json(todolists);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// retrieve on task by taskID
+// Create a new to-do item
+router.post("/todolists", authorise, async (req, res) => {
+  try {
+    const { content, dueDate } = req.body;
+    const newToDo = new ToDoList({
+      content,
+      dueDate,
+      taskStatus: false,
+      houseID: req.user.houseID,
+      userID: req.user.userID,
+    });
+    await newToDo.save();
+    res.status(201).json(newToDo);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Retrieve all to-do items for the current house
+router.get("/house", authorise, async (req, res) => {
+  try {
+    const toDoItems = await ToDoList.find({ houseID: req.user.houseID });
+    res.json(toDoItems);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Retrieve a specific to-do item by taskID
 router.get("/todolist/:taskID", authorise, async (req, res) => {
   try {
-    const todolist = await todolist.findOne({ taskID: req.params.taskID });
-    if (!todolist) {
-      return res.status(404).json({ message: "todolist item not found" });
+    const toDoItem = await ToDoList.findOne({
+      taskID: req.params.taskID,
+      houseID: req.user.houseID,
+    });
+    if (!toDoItem) {
+      return res.status(404).json({ message: "To-do item not found" });
     }
-    res.json(todolist);
+    res.json(toDoItem);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-//update to do list by taskID
+// Update a to-do item by taskID
 router.put("/todolist/:taskID", authorise, async (req, res) => {
   try {
-    const {content, dueDate, taskStatus } = req.body;
-    const houseID = req.user.houseID;
-    const userID = req.user.userID;
-    const todolist = await todolist.findOneAndUpdate(
-      { taskID: req.params.taskID,},
-      { content, dueDate, taskStatus },
+    const { content, dueDate, taskStatus } = req.body;
+    const updatedToDo = { content, dueDate, taskStatus };
+    const toDoItem = await ToDoList.findOneAndUpdate(
+      { taskID: req.params.taskID, houseID: req.user.houseID },
+      updatedToDo,
       { new: true }
     );
-    res.json(todolist);
-    console.log("nah try again" + todolist);
+    if (!toDoItem) {
+      return res.status(404).json({ message: "To-do item not found" });
+    }
+    res.json(toDoItem);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-//delete todolist by taskID
+// Delete a to-do item by taskID
 router.delete("/todolist/:taskID", authorise, async (req, res) => {
   try {
-    const userID = req.user.userID;
-    const houseID = req.user.houseID;
-    const todolist = await todolist.findOneAndDelete({
+    const toDoItem = await ToDoList.findOneAndDelete({
       taskID: req.params.taskID,
-      houseID,
-      userID,
+      houseID: req.user.houseID,
     });
-    if (!todolist) {
-      return res.status(404).json({ message: "todolist not found" });
+    if (!toDoItem) {
+      return res.status(404).json({ message: "To-do item not found" });
     }
-    res.json(todolist);
-    console.log("list is gone, ADIOS" + todolist);
+    res.json(toDoItem);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
