@@ -24,10 +24,11 @@ const todolistschema = new mongoose.Schema({
              type : String,
              required: true 
         },
-      createDate: {
-             type: Date,
-             default: Date.now,
-        },
+        createDate: {
+            type: Date,
+            required: true,
+            default: Date.now,
+          },
       dueDate: {
             type: Date,
             required : true,
@@ -44,7 +45,7 @@ const todolistschema = new mongoose.Schema({
             type: String,
             required : true,
         },
-        status: {
+        taskStatus: {
             type: Boolean,
             required : true,
         },
@@ -53,6 +54,33 @@ const todolistschema = new mongoose.Schema({
             required : true,
         }        
     });
+
+    todolistschema.methods.toJSON = function () {
+        const to_do = this.toObject();
+      
+        to_do.createDate = new Date(to_do.createdDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+      
+        to_do.dueDate = new Date(to_do.dueDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+      
+        to_do.paid = to_do.paid.map(payment => ({
+          ...payment,
+          paidDate: new Date(payment.paidDate).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          })
+        }));
+      
+        return to_do;
+      };
 
 module.exports = mongoose.model('Todolist', todolistschema);
    

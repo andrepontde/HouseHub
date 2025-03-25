@@ -17,12 +17,14 @@ router.get("/todolists/filter", async (req, res) => {
 //Creating new todolist
 router.post("/todolists", authorise, async (req, res) => {
   try {
-    const {content, dueDate, userID, taskID} = req.body;
+    const {content, dueDate} = req.body;
+
+    taskStatus = false;
 
     const newtodolist = new todolist({
       houseID: req.user.houseID,
       userID: req.user.userID,
-      content, createDate, dueDate, completeDate, userID, completeUser, status, taskID,
+      content, dueDate, taskStatus, 
     });
 
     await newtodolist.save();
@@ -58,12 +60,12 @@ router.get("/todolist/:taskID", authorise, async (req, res) => {
 //update to do list by taskID
 router.put("/todolist/:taskID", authorise, async (req, res) => {
   try {
-    const {content, dueDate, completeDate, completeUser, status, taskID } = req.body;
+    const {content, dueDate, taskStatus } = req.body;
     const houseID = req.user.houseID;
     const userID = req.user.userID;
     const todolist = await todolist.findOneAndUpdate(
-      { taskID: req.params.taskID, houseID, userID },
-      { content, dueDate, completeDate, completeUser, status, taskID },
+      { taskID: req.params.taskID,},
+      { content, dueDate, taskStatus },
       { new: true }
     );
     res.json(todolist);
