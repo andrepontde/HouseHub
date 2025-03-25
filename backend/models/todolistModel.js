@@ -9,50 +9,70 @@ const todolistschema = new mongoose.Schema({
     //CRUD
     //
     houseID: {
-            type: String,
-            required: true,
-            default: uuidv4,
-            unique: true,
-            ref: 'House'
-         },
-      userID: {
-             type: String,
-             required: true,
-             ref: 'User'
-         },
-      content:{ 
-             type : String,
-             required: true 
-        },
-      createDate: {
-             type: Date,
-             default: Date.now,
-        },
-      dueDate: {
-            type: Date,
-            required : true,
-        },
-      completeDate: {
-            type: Date,
-            required : true,
-        },
-       userID: {
-            type: String,
-            required : true,
-        },
-        completeUser: {
-            type: String,
-            required : true,
-        },
-        status: {
-            type: Boolean,
-            required : true,
-        },
-        taskID: {
-            type: String,
-            required : true,
-        }        
+        type: String,
+        required: true,
+        ref: "House",
+    },
+    userID: {
+        type: String,
+        required: true,
+        ref: 'User'
+    },
+    content: {
+        type: String,
+        required: true
+    },
+    createDate: {
+        type: Date,
+        required: true,
+        default: Date.now,
+    },
+    dueDate: {
+        type: Date,
+        required: true,
+    },
+    completeDate: {
+        type: Date,
+        required: false, // Make optional
+    },
+    completeUser: {
+        type: String,
+        required: false, // Make optional
+    },
+    taskStatus: {
+        type: Boolean,
+        required: true,
+    },
+    taskID: {
+        type: String,
+        required: false,
+        unique: false,
+        default: uuidv4,
+    }
+});
+
+todolistschema.methods.toJSON = function () {
+    const to_do = this.toObject();
+
+    to_do.createDate = new Date(to_do.createdDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
     });
 
+    to_do.dueDate = new Date(to_do.dueDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+
+    to_do.completeDate = new Date(to_do.completeDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+
+    return to_do;
+};
+
 module.exports = mongoose.model('Todolist', todolistschema);
-   

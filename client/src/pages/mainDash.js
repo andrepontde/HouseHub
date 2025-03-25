@@ -6,6 +6,7 @@ import { Container, Box, Stack,Button } from "@mui/material";
 import UtilityCard from "components/dashboard/UtilityCard";
 import WelcomeMessage from "components/dashboard/Welcome";
 import TheMainNavBar from "components/layout/MainNav";
+import ToDoCard from "components/dashboard/ToDoCard";
 
 
 const DashBoard = () => {
@@ -57,7 +58,8 @@ const DashBoard = () => {
       <Stack direction="row" spacing={2}>
         <MemoCard />
         <UtilityCard />
-        </Stack >
+        <ToDoCard />
+      </Stack >
       {/* </Box> */}
     </Box>
   );
