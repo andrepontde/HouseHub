@@ -8,9 +8,16 @@ const todolistschema = new mongoose.Schema({
     //filter by date
     //CRUD
     //
+    taskID: {
+        type: String,
+        required: false,
+        unique: true, // Ensure uniqueness
+        default: uuidv4,
+    },
     houseID: {
         type: String,
         required: true,
+        unique: false, // Ensure this is not unique
         ref: "House",
     },
     userID: {
@@ -42,13 +49,8 @@ const todolistschema = new mongoose.Schema({
     taskStatus: {
         type: Boolean,
         required: true,
-    },
-    taskID: {
-        type: String,
-        required: false,
-        unique: false,
-        default: uuidv4,
     }
+    
 });
 
 todolistschema.methods.toJSON = function () {

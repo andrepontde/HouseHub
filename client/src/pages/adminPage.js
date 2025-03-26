@@ -7,6 +7,7 @@ import TheMainNavBar from "components/layout/MainNav";
 // Import the card components to handle a tenant or landlord
 import TenantCard from "../components/adminPage/TenantCard";
 import LandlordCard from "../components/adminPage/LandlordCard";
+import ProfileCard from "../components/adminPage/profileCard"; // Import ProfileCard
 
 const drawerWidth = 240; // Adjust based on your SideNav width
 
@@ -53,21 +54,49 @@ const AdminPage = () => {
 
 	return (
 		<Container maxWidth={false} disableGutters>
-	<TheMainNavBar/>
+			<TheMainNavBar />
 
-		<Container>
-
-			<Box sx={{ mt: 4 }}>
-				{/* <Button variant="contained" onClick={() => navigate('/dashboard')}>Back to Dashboard</Button> */}
-				{role === 'tenant' ? (
-					<TenantCard username={username} />
-				) : role === 'landlord' ? (
-					<LandlordCard username={username} />
-				) : (
-					<Box>No role assigned or invalid role.</Box>
-				)}
-			</Box>
-		</Container>
+			<Container>
+				<Box sx={{ mt: 4, px: 2 }}>
+					<Button 
+						variant="contained" 
+						color="primary" 
+						onClick={() => navigate('/dashboard')} 
+						sx={{ mb: 3, alignSelf: 'flex-start' }}
+					>
+						Back to Dashboard
+					</Button>
+					<Box 
+						display="flex" 
+						flexDirection={{ xs: 'column', md: 'row' }} 
+						gap={4} 
+						justifyContent="center" 
+						alignItems="flex-start"
+					>
+						<Box flex={1}>
+							<ProfileCard /> {/* Ensure ProfileCard is correctly integrated */}
+						</Box>
+						<Box flex={1}>
+							{role === 'tenant' ? (
+								<TenantCard username={username} />
+							) : role === 'landlord' ? (
+								<LandlordCard username={username} />
+							) : (
+								<Box 
+									sx={{ 
+										textAlign: 'center', 
+										padding: '20px', 
+										border: '1px solid #ddd', 
+										borderRadius: '8px' 
+									}}
+								>
+									No role assigned or invalid role.
+								</Box>
+							)}
+						</Box>
+					</Box>
+				</Box>
+			</Container>
 		</Container>
 	);
 };
