@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Button, List, ListItem, ListItemText } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { Box } from '@mui/system'; // Import Box for layout enhancements
 
 // TenantCard component displays the house details and tenants for the tenant
 const TenantCard = () => {
@@ -103,25 +104,48 @@ const TenantCard = () => {
 
     // Render the tenant list and quit house button
     return (
-        <Card>
+        <Card sx={{ maxWidth: 600, margin: '20px auto', padding: '20px', boxShadow: 3 }}>
             <CardContent>
-                <Typography variant="h5">Tenants</Typography>
+                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                    <Typography variant="h4" color="primary">
+                        Tenant Dashboard
+                    </Typography>
+                </Box>
+                {house && (
+                    <Box mb={3}>
+                        <Typography variant="h6" color="textSecondary">
+                            House Details
+                        </Typography>
+                        <Typography variant="body1">House ID: {house.houseID}</Typography>
+                        <Typography variant="body1">House Key: {house.key}</Typography>
+                    </Box>
+                )}
+                <Typography variant="h5" color="textSecondary" mb={2}>
+                    Tenants
+                </Typography>
                 <List>
                     {tenants.map(tenant => (
-                        <ListItem key={tenant.userID}>
+                        <ListItem 
+                            key={tenant.userID} 
+                            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1, border: '1px solid #ddd', borderRadius: '8px', padding: '10px' }}
+                        >
                             <ListItemText 
-                                primary={`${tenant.firstName} ${tenant.lastName}`} 
+                                primary={
+                                    <Typography variant="h6" color="textPrimary">
+                                        {tenant.firstName} {tenant.lastName}
+                                    </Typography>
+                                } 
                                 secondary={
                                     <>
-                                        <Typography component="span" variant="body2" color="textPrimary">
+                                        <Typography component="span" variant="body2" color="textSecondary">
                                             Age: {tenant.age}
                                         </Typography>
                                         <br />
-                                        <Typography component="span" variant="body2" color="textPrimary">
+                                        <Typography component="span" variant="body2" color="textSecondary">
                                             Email: {tenant.email}
                                         </Typography>
                                         <br />
-                                        <Typography component="span" variant="body2" color="textPrimary">
+                                        <Typography component="span" variant="body2" color="textSecondary">
                                             Username: {tenant.username}
                                         </Typography>
                                     </>
@@ -130,9 +154,11 @@ const TenantCard = () => {
                         </ListItem>
                     ))}
                 </List>
-                <Button variant="contained" color="secondary" onClick={handleQuitHouse}>
-                    Quit House
-                </Button>
+                <Box mt={3} textAlign="center">
+                    <Button variant="contained" color="error" onClick={handleQuitHouse}>
+                        Quit House
+                    </Button>
+                </Box>
             </CardContent>
         </Card>
     );

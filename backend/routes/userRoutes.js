@@ -149,6 +149,28 @@ router.put("/user/:username", async (req, res) => {
   }
 });
 
+// Route to update specific user fields: firstName, lastName, email, and age
+router.put("/user/updateFields/:username", async (req, res) => {
+  try {
+    const { firstName, lastName, email, age } = req.body; // Extract fields from the request body
+    const updatedFields = { firstName, lastName, email, age }; // Create an object with the updated fields
+
+    const user = await User.findOneAndUpdate(
+      { username: req.params.username },
+      updatedFields,
+      { new: true } // Return the updated user
+    ); // Update the user in the database
+
+    if (!user) {
+      // If user not found
+      return res.status(404).json({ message: "User not found" }); // Respond with user not found
+    }
+    res.json(user); // Send the updated user as a JSON response
+  } catch (error) {
+    res.status(500).json({ error: error.message }); // Respond with an error
+  }
+});
+
 //route to delete user
 router.delete("/user/:username", async (req, res) => {
   try {
