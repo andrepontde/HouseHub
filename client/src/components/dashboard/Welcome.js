@@ -1,40 +1,59 @@
-import { Typography,Avatar,Container } from "@mui/material";
+import { Typography, Avatar, Container } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import defaultLogo from 'assets/blank-profile-picture-973460_640.png'
-
+import defaultLogo from "assets/blank-profile-picture-973460_640.png";
 
 const WelcomeMessage = () => {
-  const [username, setUsername] = useState('');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const fetchUserName = async () => {
+    const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log(token)
-        const response = await axios.get("http://localhost:5001/api/user/user/welcome", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setUsername(response.data.user);
-        console.log(response.data.user)
+        const response = await axios.get(
+          "http://localhost:5001/api/user/user",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(response.data.user);
       } catch (error) {
-        console.error("Error fetching User:", error);
+        console.error("Error fetching user:", error);
       }
     };
 
-    fetchUserName();
+    fetchUserData();
   }, []);
 
   return (
-    <>
-      <Container sx={{display:"flex", flexDirection:"row", alignItems:"center",justifyContent:"center", mt:2}}>
-      <Typography variant="h3" sx={{paddingRight:2}}>Hello {username}</Typography>
-      <Avatar alt="Remy Sharp" src={defaultLogo} sx={{height:80,width:80}} />
-      </Container>
-    </>
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        mt: 2,
+      }}
+    >
+      <Typography variant="h3" sx={{ paddingRight: 2 }}>
+        Hello {user?.firstName || "User"}
+      </Typography>
+      <Avatar
+        alt="User Avatar"
+        src={
+          user?.profileImage
+            ? `http://localhost:5001/uploads/${user.profileImage}`
+            : defaultLogo
+        }
+        sx={{ height: 80, width: 80 }}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = defaultLogo;
+        }}
+      />
+    </Container>
   );
 };
 

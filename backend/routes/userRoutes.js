@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const authorise = require("../middleware/authorisationMiddleware.js");
 const generateToken = require("../utils/generateToken.js");
+const upload = require("../middleware/multer");
 
 //route ro creating user
 router.post("/registration", async (req, res) => {
@@ -184,5 +185,30 @@ router.delete("/user/:username", async (req, res) => {
     res.status(500).json({ error: error.message }); //error response
   }
 });
+// for image upload via multer
+router.post(
+  "/user/uploadProfileImage/:userID",
+  upload.single("profileImage"),
+  async (req, res) => {
+    try {
+      console.log("Upload hit");
+      console.log("req.params.userID:", req.params.userID);
+      console.log("req.file:", req.file);
+      const user = await User.findOneAndUpdate(
+        { userID: req.params.userID },
+        { profileImage: req.file.filename },
+        { new: true }
+      );
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json({ message: "Image uploaded successfully", user });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+);
 
 module.exports = router; //exporting the routes
