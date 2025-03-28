@@ -10,7 +10,10 @@ const memosRoutes = require('./routes/memosRoutes');//importing file
 const userRoutes = require('./routes/userRoutes');//importing file
 const houseRoutes = require('./routes/houseRoutes');//importing file
 const billTrackerRoutes = require('./routes/billTrackerRoutes');//importing file
-const todolistRoutes = require('./routes/todolistRoutes');//importing file
+
+const todolistRoutes = require('./routes/todolistRoutes');//importing file  
+const schedulerRoutes = require('./routes/schedulerRoutes');//importing file
+
 
 // //Imported routes
 // const memosRoutes = require('./routes/memosRoutes');
@@ -65,5 +68,9 @@ app.use('/api/house', houseRoutes);
 app.use('/api/bills', billTrackerRoutes);
 
 app.use('/api/todolist', todolistRoutes);
+
+
+app.use('/api/scheduler', schedulerRoutes);
+ 
 
 
