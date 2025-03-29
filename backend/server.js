@@ -10,8 +10,10 @@ const memosRoutes = require('./routes/memosRoutes');//importing file
 const userRoutes = require('./routes/userRoutes');//importing file
 const houseRoutes = require('./routes/houseRoutes');//importing file
 const billTrackerRoutes = require('./routes/billTrackerRoutes');//importing file
+
 const todolistRoutes = require('./routes/todolistRoutes');//importing file  
 const schedulerRoutes = require('./routes/schedulerRoutes');//importing file
+
 
 // //Imported routes
 // const memosRoutes = require('./routes/memosRoutes');
@@ -21,13 +23,13 @@ const schedulerRoutes = require('./routes/schedulerRoutes');//importing file
 
 
 
-const app = express(); 
+const app = express();
 
 // Enable CORS
 app.use(cors());
 
 //Using mongoose to connect to MongoDB
-async function connectToDB() { 
+async function connectToDB() {
 
   try{
     await mongoose.connect(uri); //connect to MongoDB from the URI
@@ -46,7 +48,8 @@ app.use(express.json());
 // Serve static files from the React build directory
 app.use(express.static(path.join(__dirname, "..","client","build")));
 
-
+// for multer
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Start the server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
@@ -63,9 +66,11 @@ app.use('/api/user', userRoutes);
 app.use('/api/house', houseRoutes);
 
 app.use('/api/bills', billTrackerRoutes);
- 
+
 app.use('/api/todolist', todolistRoutes);
+
 
 app.use('/api/scheduler', schedulerRoutes);
  
+
 
