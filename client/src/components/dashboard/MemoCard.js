@@ -106,7 +106,7 @@ const MemoCard = () => {
     }
   };
   return (
-    <Container sx={{ maxWidth: "600px", margin: "auto", paddingTop: 4 }} >
+    <Container sx={{ maxWidth: "sm", margin: "auto", paddingTop: 4 }} >
       <Card
         sx={{
           boxShadow: 3,

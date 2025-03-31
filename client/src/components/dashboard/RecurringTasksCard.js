@@ -182,7 +182,7 @@ const RecurringTasksCard = () => {
   };
 
   return (
-    <Container sx={{ maxWidth: "600px", margin: "auto", paddingTop: 4 }}>
+    <Container sx={{ maxWidth: "sm", margin: "auto", paddingTop: 4 }}>
       <Card
         sx={{
           boxShadow: 3,
@@ -275,7 +275,7 @@ const RecurringTasksCard = () => {
 
         {tasks.length > 0 ? (
           tasks.map((task) => (
-            <Card key={task.taskID} sx={{ mb: 2 }}>
+            <Card key={task.taskID} sx={{ mb: 2 , position:"relative"}}>
               <CardContent
                 sx={{
                   display: "flex",
@@ -366,12 +366,15 @@ const RecurringTasksCard = () => {
                 >
                   {!editingTask && (
                     <>
+                   <Box sx={{position:"absolute",  top:8, right:8}}>
                       <IconButton
-                        color="primary"
+                        color="secondary"
                         onClick={() => handleEditClick(task)}
+                        sx={{color:"#6b6b6b"}}
                       >
                         <EditIcon />
                       </IconButton>
+                      </Box>
                       <IconButton
                         color="error"
                         onClick={() => handleDeleteTask(task.taskID)}

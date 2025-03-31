@@ -120,27 +120,21 @@ const ProfileCard = () => {
     <Card
       sx={{
         display: "flex",
-        justifyContent: "center",
-        maxWidth: "90%",
+        maxWidth: "60%",
         margin: "20px auto",
         padding: "20px",
         boxShadow: 3,
         borderRadius: "12px",
+        justifyContent:"center"
       }}
     >
       <CardContent>
-        <Typography
-          variant="h4"
-          color="primary"
-          mb={3}
-          textAlign="center"
-          fontWeight="bold"
-        >
+        <Typography variant="h4" color="primary" mb={3}justifySelf={"flex-start"}>
           Profile
         </Typography>
         {editMode ? (
           <Box component="form" noValidate autoComplete="off">
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
               <label htmlFor="profileImageUpload">
                 <input
                   accept="image/*"
@@ -162,6 +156,7 @@ const ProfileCard = () => {
                   sx={{ height: 80, width: 80, cursor: "pointer" }}
                 />
               </label>
+              <Typography variant="p">Click image to change</Typography>
             </Box>
             <TextField
               label="First Name"
@@ -191,6 +186,13 @@ const ProfileCard = () => {
               variant="outlined"
             />
             <TextField
+              type="number"
+              slotProps={{
+                min: 1,
+                max: 120,
+                step: 1,
+              }}helperText="Enter a valid age between 1 and 120"
+              error={formData.age !== "" && (formData.age < 1 || formData.age > 120)}
               label="Age"
               name="age"
               value={formData.age}
@@ -238,27 +240,32 @@ const ProfileCard = () => {
               }
               sx={{ height: 80, width: 80, cursor: "pointer" }}
             />
-            <Typography variant="body1" mb={1}>
-              <strong>First Name:</strong> {user.firstName}
-            </Typography>
-            <Typography variant="body1" mb={1}>
-              <strong>Last Name:</strong> {user.lastName}
-            </Typography>
-            <Typography variant="body1" mb={1}>
-              <strong>Email:</strong> {user.email}
-            </Typography>
-            <Typography variant="body1" mb={3}>
-              <strong>Age:</strong> {user.age}
-            </Typography>
+            <Box sx={{mt:2}}>
+
+                <Typography variant="body1" fontSize="1.1rem" mb={1.5}>
+                  <strong>First Name:</strong> {user.firstName}
+                </Typography>
+                <Typography variant="body1" fontSize="1.1rem" mb={1.5}>
+                  <strong>Last Name:</strong> {user.lastName}
+                </Typography>
+                <Typography variant="body1" fontSize="1.1rem" mb={1.5}>
+                  <strong>Email:</strong> {user.email}
+                </Typography>
+                <Typography variant="body1" fontSize="1.1rem">
+                  <strong>Age:</strong> {user.age}
+                </Typography>
+              </Box>
+
             <Box textAlign="center">
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => setEditMode(true)}
-                sx={{ px: 4 }}
+                sx={{ px: 4 , mt:3}}
               >
                 Edit Profile
               </Button>
+
             </Box>
           </Box>
         )}

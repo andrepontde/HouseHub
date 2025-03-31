@@ -14,6 +14,7 @@ function App(){
 
   // console.log(theme.palette); Testing global pallette
 
+
   return (
   <ThemeProvider theme={theme}>
     <CssBaseline/>

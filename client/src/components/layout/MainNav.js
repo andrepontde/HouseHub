@@ -1,14 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { AppBar, Toolbar, Box, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom'; // If using React Router
 
 export function TheMainNavBar() {
-    const navigate = useNavigate();
 
-     const navigateToDash = () => {
-       navigate('/dashboard');
-     };
 
     // Retrieve token from localStorage
     const token = localStorage.getItem("token");

@@ -22,7 +22,7 @@ const DashBoard = () => {
     navigate('/admin');
   };
 
-  return (
+  return ( <>
     <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
       <TheMainNavBar />
 
@@ -31,7 +31,7 @@ const DashBoard = () => {
           alignItems: "center",
           display: "flex",
           width: "100vw",
-          justifyContent: "space-between",
+          justifyContent: "space-between"
         }}
       >
         <WelcomeMessage />
@@ -44,14 +44,15 @@ const DashBoard = () => {
           Settings
         </Button>
       </Container>
+      </Box>
 
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" spacing={2} useFlexGap flexWrap={"wrap"} justifyContent={"space-between"} >
         <MemoCard />
         <UtilityCard />
         <ToDoCard />
         <RecurringTasksCard />
       </Stack>
-    </Box>
+    </>
   );
 };
 
