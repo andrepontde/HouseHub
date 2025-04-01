@@ -61,7 +61,7 @@ const userSchema = new mongoose.Schema({
   userTheme: {
     type: String,
     required: false,
-    default: "primary"
+    default: "default"
   }
 });
 
