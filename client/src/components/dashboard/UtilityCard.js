@@ -206,7 +206,7 @@ const UtilityCard = () => {
                     {bill.paid.map((payment, index) => (
                       <ListItem key={index}>
                         <ListItemText
-                          primary={`User ${payment.UserID}: $${payment.amountPaid}`}
+                          primary={`User ${payment.userID}: $${payment.amountPaid}`}
                         />
                       </ListItem>
                     ))}

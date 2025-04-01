@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Bill = require("../models/billTrackerModel.js");
+const User = require("../models/userModel.js");
 const authorise = require("../middleware/authorisationMiddleware.js");
 
 //create a bill
@@ -90,7 +91,7 @@ router.post("/pay/:billID", authorise, async (req, res) => {
   try {
     const { amountPaid } = req.body;
     const userID = req.user.userID;
-    const username = req.user.username;
+    const userName = req.user.username;
     const bill = await Bill.findOne({ _id: req.params.billID });
 
     if (!bill) {
@@ -102,8 +103,7 @@ router.post("/pay/:billID", authorise, async (req, res) => {
     }
 
     //updating the paid array
-    bill.paid.push({ userID, amountPaid, username});
-    console.log(userID);
+    bill.paid.push({ userID, amountPaid });
 
     bill.amount -= amountPaid; //updating the amount after payment
 
