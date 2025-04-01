@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require("express");
 const path = require("path");
 const cors = require('cors');
+const http = require('http');
+const socketIo = require('socket.io');
+
 
 //Mongoose connection
 const mongoose = require('mongoose');
@@ -10,7 +13,7 @@ const memosRoutes = require('./routes/memosRoutes');//importing file
 const userRoutes = require('./routes/userRoutes');//importing file
 const houseRoutes = require('./routes/houseRoutes');//importing file
 const billTrackerRoutes = require('./routes/billTrackerRoutes');//importing file
-
+const setupSocket = require('./socket/socket.js'); //importing socket file
 const todolistRoutes = require('./routes/todolistRoutes');//importing file  
 const schedulerRoutes = require('./routes/schedulerRoutes');//importing file
 
@@ -50,13 +53,6 @@ app.use(express.static(path.join(__dirname, "..","client","build")));
 
 // for multer
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-// Start the server
-const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
-});
-
-
 
 //the defined routes are accessable through http://localhost:5001/api/memo
 app.use('/api/memo', memosRoutes);
@@ -69,8 +65,24 @@ app.use('/api/bills', billTrackerRoutes);
 
 app.use('/api/todolist', todolistRoutes);
 
-
 app.use('/api/scheduler', schedulerRoutes);
  
+
+// Start the server
+
+//app.listen(PORT, () => {
+//   console.log(`Server is running on port http://localhost:${PORT}`);
+// });
+
+
+const server = http.createServer(app);
+setupSocket(server);
+
+const PORT = process.env.PORT || 5001;
+server.listen(PORT, () => {
+  console.log(`Server is running on port http://localhost:${PORT}`);
+});
+
+
 
 
