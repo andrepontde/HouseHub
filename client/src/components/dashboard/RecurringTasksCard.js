@@ -375,12 +375,23 @@ const RecurringTasksCard = () => {
                         <EditIcon />
                       </IconButton>
                       </Box>
-                      <IconButton
+                      {/* <IconButton
                         color="error"
                         onClick={() => handleDeleteTask(task.taskID)}
                       >
                         <DeleteIcon />
-                      </IconButton>
+                      </IconButton> */}
+                      <Button
+                      variant="contained"
+                      color="error"
+                      startIcon={<DeleteIcon />}
+                      onClick={() => handleDeleteTask(task.taskID)}
+
+
+
+                    >
+                      Delete
+                    </Button>
                       <Button
                         variant="contained"
                         color="primary"

@@ -9,6 +9,7 @@ import {
   Avatar,
 } from "@mui/material";
 import defaultLogo from "assets/blank-profile-picture-973460_640.png";
+import ThemeSelector from "./ThemeSelector";
 import axios from "axios";
 
 const ProfileCard = () => {
@@ -36,6 +37,7 @@ const ProfileCard = () => {
           lastName: response.data.user.lastName,
           email: response.data.user.email,
           age: response.data.user.age,
+          userTheme: response.data.user.userTheme || "default"
         });
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -55,6 +57,27 @@ const ProfileCard = () => {
     const file = e.target.files[0];
     if (file) {
       setSelectedImage(file);
+    }
+  };
+  const handleThemeChange = async (newTheme) => {
+    setFormData((prev) => ({ ...prev, userTheme: newTheme }));
+
+    const token = localStorage.getItem("token");
+
+    try {
+      await axios.put(
+        `http://localhost:5001/api/user/theme`,
+        { theme: newTheme },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUser((prevUser) => ({ ...prevUser, userTheme: newTheme }));
+
+    } catch (err) {
+      console.error("Theme update failed", err);
     }
   };
   // Handle saving the updated user details
@@ -99,6 +122,7 @@ const ProfileCard = () => {
           alert("Profile updated, but image upload failed.");
         }
       }
+      window.location.reload();
     } catch (error) {
       console.error(
         "Error updating user details:",
@@ -201,6 +225,15 @@ const ProfileCard = () => {
               margin="normal"
               variant="outlined"
             />
+            <Box mt={2}>
+  <Typography variant="subtitle1" gutterBottom>
+    Theme Color
+  </Typography>
+  <ThemeSelector
+    currentTheme={formData.userTheme}
+    onThemeChange={handleThemeChange}
+  />
+</Box>
             <Box mt={3} display="flex" justifyContent="space-between">
               <Button
                 variant="contained"
@@ -254,6 +287,9 @@ const ProfileCard = () => {
                 <Typography variant="body1" fontSize="1.1rem">
                   <strong>Age:</strong> {user.age}
                 </Typography>
+                <Typography variant="body1" fontSize="1.1rem" mb={1.5}>
+  <strong>Theme:</strong> {user.userTheme}
+</Typography>
               </Box>
 
             <Box textAlign="center">

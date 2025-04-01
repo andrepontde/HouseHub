@@ -153,8 +153,8 @@ router.put("/user/:username", async (req, res) => {
 // Route to update specific user fields: firstName, lastName, email, and age
 router.put("/user/updateFields/:username", async (req, res) => {
   try {
-    const { firstName, lastName, email, age } = req.body; // Extract fields from the request body
-    const updatedFields = { firstName, lastName, email, age }; // Create an object with the updated fields
+    const { firstName, lastName, email, age, userTheme } = req.body; // Extract fields from the request body
+    const updatedFields = { firstName, lastName, email, age, userTheme }; // Create an object with the updated fields
 
     const user = await User.findOneAndUpdate(
       { username: req.params.username },
@@ -210,5 +210,36 @@ router.post(
     }
   }
 );
+router.put("/theme",  async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { theme } = req.body;
+
+    const validThemes = [
+      "default",
+      "blue",
+      "green",
+      "red",
+      "purple",
+      "orange",
+      "pink",
+    ];
+
+    if (!validThemes.includes(theme)) {
+      return res.status(400).json({ message: "Invalid theme selected" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { userTheme: theme },
+      { new: true }
+    );
+
+    res.json({ message: "Theme updated", userTheme: updatedUser.userTheme });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
 
 module.exports = router; //exporting the routes

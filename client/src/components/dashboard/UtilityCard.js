@@ -192,7 +192,7 @@ const UtilityCard = () => {
               }}
             >
               <CardContent>
-                <Typography variant="h6">{bill.title}</Typography>
+                <Typography variant="h6" sx={{fontWeight:"Bold"}}>{bill.title}</Typography>
                 <Typography variant="body2">{bill.desc}</Typography>
                 <Typography variant="subtitle2">
                   Due Date: {bill.dueDate}
