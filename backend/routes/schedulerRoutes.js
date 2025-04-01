@@ -107,6 +107,7 @@ router.post("/tasks/:taskID/complete", authorise, async (req, res) => {
     const nextUser = tenants[nextIndex];
 
     let daysToAdd = 0;
+
     if (task.frequency === "daily") {
       daysToAdd = 1;
     } else if (task.frequency === "weekly") {

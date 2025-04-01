@@ -30,6 +30,7 @@ const UtilityCard = () => {
   const [bills, setBills] = useState([]);
   const [payment, setPayment] = useState({ amountPaid: "" });
   const [confirmingPayment, setConfirmingPayment] = useState(null);
+  const [userMap, setUserMap] = useState({}); // Map of userID to username
 
   useEffect(() => {
     const fetchBills = async () => {
@@ -89,6 +90,26 @@ const UtilityCard = () => {
       console.error("Error processing payment:", error);
     }
   };
+  // map users
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:5001/api/user/users", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const users = response.data;
+        const userMapping = users.reduce((map, user) => {
+          map[user.userID] = user.username;
+          return map;
+        }, {});
+        setUserMap(userMapping);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   const handleDeleteBill = async (billID) => {
     try {
@@ -206,7 +227,7 @@ const UtilityCard = () => {
                     {bill.paid.map((payment, index) => (
                       <ListItem key={index}>
                         <ListItemText
-                          primary={`User ${payment.userID}: $${payment.amountPaid}`}
+                          primary={` ${userMap[payment.userID]}: $${payment.amountPaid}`}
                         />
                       </ListItem>
                     ))}
