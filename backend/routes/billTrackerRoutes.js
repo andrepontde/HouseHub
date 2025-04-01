@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Bill = require("../models/billTrackerModel.js");
+const User = require("../models/userModel.js");
 const authorise = require("../middleware/authorisationMiddleware.js");
 
 //create a bill
@@ -71,12 +72,9 @@ router.put("/update/:billID", authorise, async (req, res) => {
 //delete a bill
 router.delete("/delete/:billID", authorise, async (req, res) => {
   try {
-    const houseID = req.user.houseID;
-    const userID = req.user.userID;
+    const billID = req.params.billID
     const bill = await Bill.findOneAndDelete({
-      _id: req.params.billID,
-      houseID,
-      userID,
+      _id: billID
     });
     if (!bill) {
       return res.status(404).json({ message: "Bill not found" });
@@ -93,6 +91,7 @@ router.post("/pay/:billID", authorise, async (req, res) => {
   try {
     const { amountPaid } = req.body;
     const userID = req.user.userID;
+    const userName = req.user.username;
     const bill = await Bill.findOne({ _id: req.params.billID });
 
     if (!bill) {

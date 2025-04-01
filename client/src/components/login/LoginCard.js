@@ -51,7 +51,7 @@ const LoginCard = ({ onToggle }) => {
 		return <JoinHouseCard username={username} password={password} />; // Render JoinHouseCard if needed
 	}
 
-	// Return login form, with username and password fields, done with Material UI. 
+	// Return login form, with username and password fields, done with Material UI.
 
 	return (
 		<Container

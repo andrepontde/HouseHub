@@ -37,10 +37,12 @@ const UtilityCard = () => {
         const token = localStorage.getItem("token");
         const response = await axios.get(
           "http://localhost:5001/api/bills/house",
+
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+        console.log("Fetched Bills:", response.data);
         setBills(response.data);
       } catch (error) {
         console.error("Error fetching bills:", error);
@@ -101,7 +103,7 @@ const UtilityCard = () => {
   };
 
   return (
-    <Container sx={{ maxWidth: "600px", margin: "auto", paddingTop: 4 }}>
+    <Container sx={{ maxWidth: "sm", margin: "auto", paddingTop: 4 }}>
       <Card
         sx={{
           boxShadow: 3,
@@ -190,7 +192,7 @@ const UtilityCard = () => {
               }}
             >
               <CardContent>
-                <Typography variant="h6">{bill.title}</Typography>
+                <Typography variant="h6" sx={{fontWeight:"Bold"}}>{bill.title}</Typography>
                 <Typography variant="body2">{bill.desc}</Typography>
                 <Typography variant="subtitle2">
                   Due Date: {bill.dueDate}
@@ -204,7 +206,7 @@ const UtilityCard = () => {
                     {bill.paid.map((payment, index) => (
                       <ListItem key={index}>
                         <ListItemText
-                          primary={`User ${payment.userName}: $${payment.amountPaid}`}
+                          primary={`User ${payment.userID}: $${payment.amountPaid}`}
                         />
                       </ListItem>
                     ))}

@@ -18,6 +18,13 @@ const AdminPage = () => {
 	const [role, setRole] = useState('');
 	//Usestate to store the role of the user
 	const [loading, setLoading] = useState(true);
+	// ensures admin cannot be accessed directly without auth
+	  const token = localStorage.getItem("token");
+	  useEffect(() => {
+		if (!token) {
+		  navigate('/');
+		}
+	  }, [token, navigate]);
 
 	//function to fetch the user role from the server when loading components
 	useEffect(() => {
@@ -58,19 +65,19 @@ const AdminPage = () => {
 
 			<Container>
 				<Box sx={{ mt: 4, px: 2 }}>
-					<Button 
-						variant="contained" 
-						color="primary" 
-						onClick={() => navigate('/dashboard')} 
+					<Button
+						variant="contained"
+						color="primary"
+						onClick={() => navigate('/dashboard')}
 						sx={{ mb: 3, alignSelf: 'flex-start' }}
 					>
 						Back to Dashboard
 					</Button>
-					<Box 
-						display="flex" 
-						flexDirection={{ xs: 'column', md: 'row' }} 
-						gap={4} 
-						justifyContent="center" 
+					<Box
+						display="flex"
+						flexDirection={{ xs: 'column', md: 'row' }}
+						gap={4}
+						justifyContent="center"
 						alignItems="flex-start"
 					>
 						<Box flex={1}>
@@ -82,12 +89,12 @@ const AdminPage = () => {
 							) : role === 'landlord' ? (
 								<LandlordCard username={username} />
 							) : (
-								<Box 
-									sx={{ 
-										textAlign: 'center', 
-										padding: '20px', 
-										border: '1px solid #ddd', 
-										borderRadius: '8px' 
+								<Box
+									sx={{
+										textAlign: 'center',
+										padding: '20px',
+										border: '1px solid #ddd',
+										borderRadius: '8px'
 									}}
 								>
 									No role assigned or invalid role.

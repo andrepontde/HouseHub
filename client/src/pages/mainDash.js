@@ -1,8 +1,7 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import MemoCard from "components/dashboard/MemoCard";
 import { Container, Box, Stack, Button } from "@mui/material";
+import MemoCard from "components/dashboard/MemoCard";
 import UtilityCard from "components/dashboard/UtilityCard";
 import WelcomeMessage from "components/dashboard/Welcome";
 import TheMainNavBar from "components/layout/MainNav";
@@ -12,46 +11,65 @@ import RecurringTasksCard from "components/dashboard/RecurringTasksCard";
 const DashBoard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+
   useEffect(() => {
     if (!token) {
-      navigate('/');
+      navigate("/");
     }
   }, [token, navigate]);
 
   const navigateToAdmin = () => {
-    navigate('/admin');
+    navigate("/admin");
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
-      <TheMainNavBar />
+    <>
+      <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
+        <TheMainNavBar />
 
-      <Container
-        sx={{
-          alignItems: "center",
-          display: "flex",
-          width: "100vw",
-          justifyContent: "space-between",
-        }}
-      >
-        <WelcomeMessage />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={navigateToAdmin}
-          sx={{ mt: 2 }}
+        {/* Welcome Message and Settings Button */}
+        <Container
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+            marginTop: 2,
+          }}
         >
-          Settings
-        </Button>
-      </Container>
+          <WelcomeMessage />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={navigateToAdmin}
+            sx={{ mt: 2 }}
+          >
+            Settings
+          </Button>
+        </Container>
+      </Box>
 
-      <Stack direction="row" spacing={2}>
-        <MemoCard />
-        <UtilityCard />
-        <ToDoCard />
-        <RecurringTasksCard />
-      </Stack>
-    </Box>
+      {/* Dashboard Layout */}
+      <Container sx={{ marginTop: 4 , width:"100vw"}}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={3}
+          sx={{ flexWrap: "wrap", justifyContent: "space-between" }}
+        >
+          {/* Left Column */}
+          <Stack spacing={3} sx={{ flex: 1, minWidth: "500px" }}>
+            <MemoCard />
+            <ToDoCard />
+            <RecurringTasksCard />
+          </Stack>
+
+          {/* Right Column */}
+          <Box sx={{ flex: 2, minWidth: "300px" }}>
+            <UtilityCard />
+          </Box>
+        </Stack>
+      </Container>
+    </>
   );
 };
 

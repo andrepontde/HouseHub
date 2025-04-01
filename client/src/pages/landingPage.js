@@ -1,9 +1,8 @@
 import React from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import { useTheme } from "@mui/material";
 import TheMainNavBar from "components/layout/MainNav";
 import MainHero from "components/Landing/MainHero";
-import DashboardButton from "components/Landing/goDashboardButton";
 import bgLight from "assets/pexels-pixabay-259588.jpg";
 import bgDark from "assets/pexels-pierre-blache-651604-2901215.jpg";
 const Landing = () => {

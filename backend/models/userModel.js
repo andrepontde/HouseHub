@@ -58,6 +58,11 @@ const userSchema = new mongoose.Schema({
     required: false,
     default: "",
   },
+  userTheme: {
+    type: String,
+    required: false,
+    default: "primary"
+  }
 });
 
 userSchema.index({ houseID: 1 }); //adding index to houseID for querying
