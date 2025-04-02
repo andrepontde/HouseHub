@@ -7,6 +7,7 @@ import LoginPage from 'pages/loginPage';
 import DashBoard from 'pages/mainDash';
 import AdminPage from 'pages/adminPage';
 import Redirect from 'pages/redirect';
+import ChatPage from 'pages/chatPage';
 import axios from 'axios';
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/chat" element={<ChatPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
