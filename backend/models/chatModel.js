@@ -12,6 +12,11 @@ const chatSchema = new mongoose.Schema({
         required: true,
         ref: "User",
       },
+      username: {
+        type: String,
+        required: true,
+        ref: "User",
+      },
       message: {
         type: String,
         required: true,
