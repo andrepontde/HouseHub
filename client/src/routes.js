@@ -7,6 +7,7 @@ import Memos from './pages/memosPage';
 import Utility from './pages/utilityPage';
 import NotFound from './pages/notFound';
 import AdminPage from './pages/adminPage';
+import ChatPage from './pages/chatPage';
 
 // This will define the routes with the associated components needed for rendering
 const router = createBrowserRouter([
@@ -16,7 +17,8 @@ const router = createBrowserRouter([
     { path: '/memos', element: <Memos /> },
     { path: '/utility', element: <Utility /> },
     { path: '*', element: <NotFound /> },
-    { path: '/admin', element: <AdminPage /> }
+    { path: '/admin', element: <AdminPage /> },
+    { path: '/chat', element: <ChatPage/> }
 ]);
 
 const AppRoutes = () => {
