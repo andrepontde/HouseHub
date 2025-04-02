@@ -24,7 +24,11 @@ function setupSocket(server) {
             console.log(`User ${socket.user.username} auto-joined house: ${houseID}`);
 
             // Load chat history for user
-            loadChatHistory(socket, houseID);
+            loadChatHistory(socket, houseID).catch(err => {
+                console.error('Error loading chat history:', err);
+                socket.emit('error', 'Failed to load chat history');
+            });
+
 
             // Notify others of join
             socket.to(houseID).emit('userJoined', {
@@ -45,10 +49,7 @@ function setupSocket(server) {
                     userID: socket.user.userID,
                     message: `${socket.user.username} has joined the chat`,
                 });
-                //Query to find old messages
-                const messages = await chat.find({ houseID }).sort({ timestamp: -1 }).limit(50).populate('userID', 'username profileImage');
-                //Send messages to joined user
-                socket.emit('chatHistory', messages.reverse());
+                await loadChatHistory(socket, houseID); // Load chat history from house
             } catch (error) {
                 console.error('Error loading chat history:', error);
             }
@@ -85,6 +86,7 @@ function setupSocket(server) {
                 const newMessage = new chat({
                     houseID,
                     userID,
+                    username,
                     message,
                 });
                 //Saving message to DB
@@ -142,11 +144,17 @@ async function loadChatHistory(socket, houseID) {
         // Query to find old messages
         const messages = await chat.find({ houseID })
             .sort({ timestamp: -1 })
-            .limit(50)
-            .populate('userID', 'username profileImage');
+            .limit(50);
+
+        const formattedMessages = messages.map(msg => ({
+            id: msg._id,
+            message: msg.message,
+            username: msg.username || (msg.userID === socket.user.userID ? socket.user.username : 'Other User'),
+            timestamp: msg.timestamp
+        }));
 
         // Send messages to joined user
-        socket.emit('chatHistory', messages.reverse());
+        socket.emit('chatHistory', formattedMessages.reverse());
     } catch (error) {
         console.error('Error loading chat history:', error);
         socket.emit('error', 'Failed to load chat history');

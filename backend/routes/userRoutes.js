@@ -122,7 +122,7 @@ router.post("/login", async (req, res) => {
     return res.json({ message: "RHP" }); //response for invalid credentials
 	}
 
-    const token = generateToken(user.userID, user.houseID); //generating token
+    const token = generateToken(user.userID, user.houseID, user.username); //generating token
     res.json({token}); //send the user as a json response
 
   } catch (error) {
