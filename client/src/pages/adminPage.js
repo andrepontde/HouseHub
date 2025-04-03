@@ -11,7 +11,7 @@ import ProfileCard from "../components/adminPage/profileCard"; // Import Profile
 
 const drawerWidth = 240; // Adjust based on your SideNav width
 
-const AdminPage = () => {
+const AdminPage = ({ userTheme, setUserTheme }) => {
 	//Usernames are passed as a parameter in the URL
 	const { username } = useParams();
 	const navigate = useNavigate(); // Initialize useNavigate
@@ -81,7 +81,7 @@ const AdminPage = () => {
 						alignItems="flex-start"
 					>
 						<Box flex={1}>
-							<ProfileCard /> {/* Ensure ProfileCard is correctly integrated */}
+						<ProfileCard userTheme={userTheme} setUserTheme={setUserTheme} />
 						</Box>
 						<Box flex={1}>
 							{role === 'tenant' ? (
