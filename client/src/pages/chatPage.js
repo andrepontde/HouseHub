@@ -126,7 +126,7 @@ const ChatPage = () => {
                 {msg.username} {msg.username === user.username && '(You)'}
               </Box>
             )}
-            <Box>{msg.message}</Box>
+            <Box sx={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap' }}>{msg.message}</Box>
             <Typography variant="caption" sx={{ color: '#888', display: 'block', textAlign: 'right' }}>
               {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </Typography>
