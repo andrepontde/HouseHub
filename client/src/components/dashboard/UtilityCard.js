@@ -239,6 +239,8 @@ const UtilityCard = () => {
                       fullWidth
                       label="Enter Payment Amount"
                       type="number"
+                      inputProps={{ min: 1,
+                        max: bill.amount}}
                       value={payment.amountPaid}
                       onChange={(e) =>
                         setPayment({ amountPaid: e.target.value })

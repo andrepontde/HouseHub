@@ -96,8 +96,8 @@ const ChatPage = () => {
   return (
      <>
   <TheMainNavBar />
-  <Container sx={{ display: "flex", justifyContent: "center", alignContent: "center", mt: 5 }}>
-    <Card sx={{ maxWidth: 950 }}>
+  <Container sx={{w:20, display: "flex", justifyContent: "center", alignContent: "center", mt: 5 }}>
+    <Card sx={{ width:"75%"  }}>
       <Box sx={{  color: 'white', padding: 2 }}>
         <CardHeader
           title="House Chat"
@@ -108,7 +108,7 @@ const ChatPage = () => {
       <CardContent sx={{ height: 400, overflowY: 'auto', padding: 2 }}>
         {messages.map((msg, i) => (
           <Box key={i} sx={{
-            margin: '5px 0',
+            margin: '5px 10px',
             padding: 1,
             backgroundColor: msg.isSystem ? '#e0e0e0' :
               (msg.username === user.username ? '#2196f3' : 'white'),
@@ -119,7 +119,8 @@ const ChatPage = () => {
             {!msg.isSystem && (
               <Box sx={{
                 fontWeight: 'bold',
-                mb: 0.5,
+                mb: 0,
+                p:0,
                 color: msg.username === user.username ? '#f0f0f0' : '#333'
               }}>
                 {msg.username} {msg.username === user.username && '(You)'}

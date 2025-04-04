@@ -44,7 +44,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Redirect />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/dashboard" element={<DashBoard userTheme={userTheme} />} />
           <Route path="/admin" element={<AdminPage userTheme={userTheme} setUserTheme={setUserTheme }/>} />
           <Route path="/chat" element={<ChatPage />} />
         </Routes>
