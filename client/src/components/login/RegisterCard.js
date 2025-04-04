@@ -47,10 +47,12 @@ const RegisterCard = ({ onToggle }) => {
 				houseID,
 			});
 
+
 			console.log('User registered:', response.data);
 			setShowJoinHouse(true);
 
 		} catch (error) {
+			alert("This username is already taken, please choose another one.");
 			console.error('Error registering user:', error);
 		}
 	};
