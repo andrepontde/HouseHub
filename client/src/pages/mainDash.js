@@ -8,6 +8,7 @@ import TheMainNavBar from "components/layout/MainNav";
 import ToDoCard from "components/dashboard/ToDoCard";
 import RecurringTasksCard from "components/dashboard/RecurringTasksCard";
 
+
 const DashBoard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -21,6 +22,10 @@ const DashBoard = () => {
   const navigateToAdmin = () => {
     navigate("/admin");
   };
+    const navigateChatPage = () =>{
+        navigate("/chat");
+
+    };
 
   return (
     <>
@@ -38,6 +43,9 @@ const DashBoard = () => {
           }}
         >
           <WelcomeMessage />
+          <Button variant="contained" onClick={navigateChatPage} sx={{mt:2,  mr:3}}>
+                   Chat
+             </Button>
           <Button
             variant="contained"
             color="primary"
@@ -46,6 +54,7 @@ const DashBoard = () => {
           >
             Settings
           </Button>
+
         </Container>
       </Box>
 
