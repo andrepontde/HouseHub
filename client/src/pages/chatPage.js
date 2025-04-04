@@ -98,7 +98,7 @@ const ChatPage = () => {
   <TheMainNavBar />
   <Container sx={{w:20, display: "flex", justifyContent: "center", alignContent: "center", mt: 5 }}>
     <Card sx={{width: "75%",
-  height: "90vh",
+  height: "85vh", // Reduced height by 5%
   display: "flex",
   flexDirection: "column"}}>
       <Box sx={{  color: 'white', padding: 2 }}>
@@ -112,7 +112,7 @@ const ChatPage = () => {
         {messages.map((msg, i) => (
           <Box key={i} sx={{
             margin: '5px 10px',
-            padding: 1,height:"80%",
+            padding: 1,
             backgroundColor: msg.isSystem ? '#e0e0e0' :
               (msg.username === user.username ? '#2196f3' : 'white'),
             color: msg.username === user.username && !msg.isSystem ? 'white' : 'black',
@@ -130,7 +130,7 @@ const ChatPage = () => {
               </Box>
             )}
             <Box sx={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap' }}>{msg.message}</Box>
-            <Typography variant="caption" sx={{ color: '#888', display: 'block', textAlign: 'right' }}>
+            <Typography variant="caption" sx={{ color: 'black', display: 'block', textAlign: 'right' }}>
               {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </Typography>
           </Box>
