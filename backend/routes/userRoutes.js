@@ -134,7 +134,11 @@ router.post("/login", async (req, res) => {
 router.put("/user/:username", async (req, res) => {
   try {
     const { houseID } = req.body; // Only updating houseID
-    const updatedUser = { houseID }; //creating new updated user
+    const houseExists = await User.findOne({ houseID }); // Check if the houseID exists
+    if (!houseExists) {
+      return res.status(400).json({ message: "Invalid houseID" }); // Respond if houseID does not exist
+    }
+    const updatedUser = { houseID }; // Creating new updated user
     const user = await User.findOneAndUpdate(
       { username: req.params.username },
       updatedUser,

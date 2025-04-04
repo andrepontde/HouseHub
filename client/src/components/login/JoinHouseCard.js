@@ -67,7 +67,7 @@ const JoinHouseCard = ({ username, password }) => {
 
 		} catch (error) {
 			console.error('Error joining house:', error.response ? error.response.data : error.message);
-			alert('Failed to join house. Please check the console for details.');
+			alert('Failed to join house. invalid houseID.');
 		}
 	};
 
