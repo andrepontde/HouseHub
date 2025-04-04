@@ -12,7 +12,8 @@ import defaultLogo from "assets/blank-profile-picture-973460_640.png";
 import ThemeSelector from "./ThemeSelector";
 import axios from "axios";
 
-const ProfileCard = () => {
+const ProfileCard = ({ userTheme, setUserTheme }) => {
+;
   const [user, setUser] = useState(null); // State for user details
   const [editMode, setEditMode] = useState(false); // State to toggle edit mode
   const [formData, setFormData] = useState({}); // State for form data
@@ -61,7 +62,7 @@ const ProfileCard = () => {
   };
   const handleThemeChange = async (newTheme) => {
     setFormData((prev) => ({ ...prev, userTheme: newTheme }));
-
+    setUserTheme(newTheme);
     const token = localStorage.getItem("token");
 
     try {
@@ -122,7 +123,6 @@ const ProfileCard = () => {
           alert("Profile updated, but image upload failed.");
         }
       }
-      window.location.reload();
     } catch (error) {
       console.error(
         "Error updating user details:",

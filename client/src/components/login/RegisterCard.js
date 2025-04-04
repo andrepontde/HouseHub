@@ -136,6 +136,8 @@ const RegisterCard = ({ onToggle }) => {
 							name="age"
 							type="number"
 							value={age}
+							inputProps={{ min: 1,
+								max: 99}}
 							onChange={(e) => setAge(e.target.value)}
 							size="small"
 						/>
